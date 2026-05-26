@@ -132,6 +132,22 @@ describe('useDiagramRender', () => {
     expect(fetchMock).not.toHaveBeenCalled();
   });
 
+  it('preserves local render errors when remote rendering is disabled', async () => {
+    mermaidRenderMock.mockRejectedValueOnce(new Error('syntax error'));
+
+    const { result } = renderHook(() =>
+      useDiagramRender('mermaid', 'svg', 'invalid', undefined, false),
+    );
+
+    await act(async () => {
+      await result.current.renderDiagram();
+    });
+
+    expect(result.current.error).toContain('syntax error');
+    expect(result.current.error).not.toContain('静态部署模式');
+    expect(fetchMock).not.toHaveBeenCalled();
+  });
+
   it('clears outputs when resetOutput is called', async () => {
     const { result } = renderHook(() => useDiagramRender('mermaid', 'svg', 'graph TD\nA-->B'));
 

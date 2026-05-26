@@ -46,7 +46,7 @@ export class SvgPreprocessor {
     }
 
     const processed = new XMLSerializer().serializeToString(svgElement);
-    const dimensions = this.extractDimensions(processed);
+    const dimensions = this.extractDimensionsFromSvgElement(svgElement);
 
     return { content: processed, ...dimensions };
   }
@@ -63,6 +63,13 @@ export class SvgPreprocessor {
       return { width: 800, height: 600 };
     }
 
+    return this.extractDimensionsFromSvgElement(svgElement);
+  }
+
+  private extractDimensionsFromSvgElement(svgElement: SVGSVGElement): {
+    width: number;
+    height: number;
+  } {
     let width = parseFloat(svgElement.getAttribute('width') || '0');
     let height = parseFloat(svgElement.getAttribute('height') || '0');
 

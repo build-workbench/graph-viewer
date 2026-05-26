@@ -59,7 +59,7 @@ export class ExportService {
   }
 
   getSupportedFormats(): ExportFormat[] {
-    return ['svg', 'png', 'jpeg', 'webp', 'pdf', 'html', 'md'];
+    return ['svg', 'png', 'jpeg', 'webp', 'html', 'md'];
   }
 
   private async exportDiagramContent(

@@ -1,6 +1,6 @@
 'use client';
 
-import { memo } from 'react';
+import { memo, useMemo } from 'react';
 import type { Engine, Format } from '@/lib/diagramConfig';
 import {
   ENGINE_LABELS,
@@ -63,18 +63,21 @@ function EditorPanelComponent(props: EditorPanelProps) {
 
   const currentEngineConfig = ENGINE_CONFIGS[engine];
 
-  // 根据 limitEngines 过滤引擎类别
-  const filteredCategories = limitEngines
-    ? Object.entries(ENGINE_CATEGORIES)
-        .map(([category, engines]) => ({
-          category,
-          engines: engines.filter((eng) => limitEngines.includes(eng)),
-        }))
-        .filter(({ engines }) => engines.length > 0)
-    : Object.entries(ENGINE_CATEGORIES).map(([category, engines]) => ({
+  // Memoize filteredCategories to avoid recalculating on every render
+  const filteredCategories = useMemo(() => {
+    if (!limitEngines) {
+      return Object.entries(ENGINE_CATEGORIES).map(([category, engines]) => ({
         category,
         engines,
       }));
+    }
+    return Object.entries(ENGINE_CATEGORIES)
+      .map(([category, engines]) => ({
+        category,
+        engines: engines.filter((eng) => limitEngines.includes(eng)),
+      }))
+      .filter(({ engines }) => engines.length > 0);
+  }, [limitEngines]);
 
   return (
     <div className="flex h-full flex-col space-y-4 overflow-hidden rounded-[24px] border border-white/70 bg-white/90 p-4 shadow-sm backdrop-blur md:p-5">

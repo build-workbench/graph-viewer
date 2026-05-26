@@ -5,7 +5,7 @@
 /**
  * 支持的导出格式
  */
-export type ExportFormat = 'svg' | 'png' | 'jpeg' | 'webp' | 'pdf' | 'html' | 'md';
+export type ExportFormat = 'svg' | 'png' | 'jpeg' | 'webp' | 'html' | 'md';
 
 /**
  * 导出选项

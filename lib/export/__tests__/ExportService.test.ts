@@ -45,9 +45,9 @@ describe('ExportService', () => {
       expect(formats).toContain('png');
       expect(formats).toContain('jpeg');
       expect(formats).toContain('webp');
-      expect(formats).toContain('pdf');
       expect(formats).toContain('html');
       expect(formats).toContain('md');
+      expect(formats).not.toContain('pdf');
     });
   });
 

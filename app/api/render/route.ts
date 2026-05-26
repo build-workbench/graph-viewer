@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { createHash } from 'crypto';
 import { getKrokiType, isEngine, isFormat } from '@/lib/diagramConfig';
 import { logger } from '@/lib/logger';
 import { APP_CONFIG } from '@/lib/config';
@@ -200,6 +201,14 @@ export async function POST(req: NextRequest) {
     const k = renderCache.createKey(base, engine, format, code);
     const cached = renderCache.get(k);
     if (cached && !renderCache.isExpired(cached, now)) {
+      // Add caching headers for client-side cache reuse
+      const cacheControl = 'public, max-age=3600';
+      const etagHash = createHash('sha256')
+        .update(cached.svg || cached.base64 || '')
+        .digest('hex')
+        .substring(0, 16);
+      const etag = `"${etagHash}"`;
+
       if (binary) {
         if (format === 'svg' && cached.svg) {
           return new NextResponse(toArrayBuffer(Buffer.from(cached.svg)), {
@@ -207,6 +216,8 @@ export async function POST(req: NextRequest) {
             headers: {
               'Content-Type': cached.contentType,
               'Content-Disposition': `attachment; filename=diagram.${format}`,
+              'Cache-Control': cacheControl,
+              ETag: etag,
             },
           });
         }
@@ -217,14 +228,32 @@ export async function POST(req: NextRequest) {
             headers: {
               'Content-Type': cached.contentType,
               'Content-Disposition': `attachment; filename=diagram.${format}`,
+              'Cache-Control': cacheControl,
+              ETag: etag,
             },
           });
         }
       } else {
         if (format === 'svg' && cached.svg) {
-          return NextResponse.json({ contentType: cached.contentType, svg: cached.svg });
+          return NextResponse.json(
+            { contentType: cached.contentType, svg: cached.svg },
+            {
+              headers: {
+                'Cache-Control': cacheControl,
+                ETag: etag,
+              },
+            },
+          );
         } else if (cached.base64) {
-          return NextResponse.json({ contentType: cached.contentType, base64: cached.base64 });
+          return NextResponse.json(
+            { contentType: cached.contentType, base64: cached.base64 },
+            {
+              headers: {
+                'Cache-Control': cacheControl,
+                ETag: etag,
+              },
+            },
+          );
         }
       }
     }

@@ -1,5 +1,6 @@
 'use client';
 
+import { memo, useCallback } from 'react';
 import type { Engine } from '@/lib/diagramConfig';
 import type { VersionRecord } from '@/hooks/useVersionHistory';
 import type { AIConfig, AIAnalysisResult } from '@/hooks/useAIAssistant';
@@ -82,6 +83,90 @@ const TAB_ITEMS: Array<{
   },
 ];
 
+// ============================================================================
+// Memoized Panel Components - Prevent unnecessary re-renders when props haven't changed
+// ============================================================================
+
+type EditorPanelProps = {
+  onEngineChange: (engine: Engine, loadSample?: boolean) => void;
+  onCopyCode: () => Promise<void>;
+  onClearCode: () => void;
+  onExportSourceCode: () => Promise<void>;
+  onLivePreviewChange: (enabled: boolean) => void;
+  livePreviewEnabled: boolean;
+  limitEngines?: readonly Engine[];
+};
+
+const MemoizedEditorPanel = memo(function EditorPanelComponent(props: EditorPanelProps) {
+  return <EditorPanel {...props} />;
+});
+
+type AIPanelProps = {
+  config: AIConfig;
+  isConfigured: boolean;
+  isAnalyzing: boolean;
+  isGenerating: boolean;
+  lastAnalysis: AIAnalysisResult | null;
+  error: string | null;
+  boundaryNotice: string;
+  onUpdateConfig: (config: Partial<AIConfig>) => void;
+  onAnalyze: () => void;
+  onFix: () => void;
+  onGenerate: (description: string) => void;
+  onApplyCode: (code: string) => void;
+  onClearError: () => void;
+  onClearAnalysis: () => void;
+};
+
+const MemoizedAIPanel = memo(function AIPanelComponent(props: AIPanelProps) {
+  return (
+    <div className="h-full overflow-hidden rounded-[24px] border border-white/70 bg-white/90 shadow-sm backdrop-blur">
+      <AIAssistantPanel
+        config={props.config}
+        isConfigured={props.isConfigured}
+        isAnalyzing={props.isAnalyzing}
+        isGenerating={props.isGenerating}
+        lastAnalysis={props.lastAnalysis}
+        error={props.error}
+        boundaryNotice={props.boundaryNotice}
+        onUpdateConfig={props.onUpdateConfig}
+        onAnalyze={props.onAnalyze}
+        onFix={props.onFix}
+        onGenerate={props.onGenerate}
+        onApplyCode={props.onApplyCode}
+        onClearError={props.onClearError}
+        onClearAnalysis={props.onClearAnalysis}
+      />
+    </div>
+  );
+});
+
+type HistoryPanelProps = {
+  versions: VersionRecord[];
+  isLoading: boolean;
+  onRestore: (version: VersionRecord) => void;
+  onDelete: (versionId: string) => void;
+  onRename: (versionId: string, newLabel: string) => void;
+  onCreateSnapshot: () => void;
+  onClearAll: () => void;
+};
+
+const MemoizedHistoryPanel = memo(function HistoryPanelComponent(props: HistoryPanelProps) {
+  return (
+    <div className="h-full overflow-hidden rounded-[24px] border border-white/70 bg-white/90 shadow-sm backdrop-blur">
+      <VersionHistoryPanel
+        versions={props.versions}
+        isLoading={props.isLoading}
+        onRestore={props.onRestore}
+        onDelete={props.onDelete}
+        onRename={props.onRename}
+        onCreateSnapshot={props.onCreateSnapshot}
+        onClearAll={props.onClearAll}
+      />
+    </div>
+  );
+});
+
 export function SidebarTabs(props: SidebarTabsProps) {
   const {
     activeTab,
@@ -119,6 +204,11 @@ export function SidebarTabs(props: SidebarTabsProps) {
     onClearAllVersions,
   } = props;
 
+  // Memoize tab change callback to prevent unnecessary re-renders
+  const handleTabChange = useCallback((tab: SidebarTab) => {
+    onTabChange(tab);
+  }, [onTabChange]);
+
   return (
     <>
       {/* Tab 切换栏 */}
@@ -129,7 +219,7 @@ export function SidebarTabs(props: SidebarTabsProps) {
           return (
             <button
               key={tab.id}
-              onClick={() => onTabChange(tab.id)}
+              onClick={() => handleTabChange(tab.id)}
               className={`flex flex-1 items-center justify-center gap-1.5 px-3 py-2.5 text-xs font-medium transition ${
                 isActive ? tab.activeClass : 'text-slate-500 hover:bg-slate-50 hover:text-slate-700'
               }`}
@@ -149,7 +239,7 @@ export function SidebarTabs(props: SidebarTabsProps) {
       {/* Tab 内容区 */}
       <div className="min-h-[360px] flex-1 lg:min-h-0">
         {activeTab === 'editor' && (
-          <EditorPanel
+          <MemoizedEditorPanel
             onEngineChange={onEngineChange}
             onCopyCode={onCopyCode}
             onClearCode={onClearCode}
@@ -160,39 +250,38 @@ export function SidebarTabs(props: SidebarTabsProps) {
           />
         )}
         {activeTab === 'ai' && (
-          <div className="h-full overflow-hidden rounded-[24px] border border-white/70 bg-white/90 shadow-sm backdrop-blur">
-            <AIAssistantPanel
-              config={aiConfig}
-              isConfigured={isAIConfigured}
-              isAnalyzing={isAIAnalyzing}
-              isGenerating={isAIGenerating}
-              lastAnalysis={lastAIAnalysis}
-              error={aiError}
-              boundaryNotice={aiBoundaryNotice}
-              onUpdateConfig={onUpdateAIConfig}
-              onAnalyze={onAIAnalyze}
-              onFix={onAIFix}
-              onGenerate={onAIGenerate}
-              onApplyCode={onApplyAICode}
-              onClearError={onClearAIError}
-              onClearAnalysis={onClearAIAnalysis}
-            />
-          </div>
+          <MemoizedAIPanel
+            config={aiConfig}
+            isConfigured={isAIConfigured}
+            isAnalyzing={isAIAnalyzing}
+            isGenerating={isAIGenerating}
+            lastAnalysis={lastAIAnalysis}
+            error={aiError}
+            boundaryNotice={aiBoundaryNotice}
+            onUpdateConfig={onUpdateAIConfig}
+            onAnalyze={onAIAnalyze}
+            onFix={onAIFix}
+            onGenerate={onAIGenerate}
+            onApplyCode={onApplyAICode}
+            onClearError={onClearAIError}
+            onClearAnalysis={onClearAIAnalysis}
+          />
         )}
         {activeTab === 'history' && (
-          <div className="h-full overflow-hidden rounded-[24px] border border-white/70 bg-white/90 shadow-sm backdrop-blur">
-            <VersionHistoryPanel
-              versions={versions}
-              isLoading={isVersionsLoading}
-              onRestore={onRestoreVersion}
-              onDelete={onDeleteVersion}
-              onRename={onRenameVersion}
-              onCreateSnapshot={onCreateSnapshot}
-              onClearAll={onClearAllVersions}
-            />
-          </div>
+          <MemoizedHistoryPanel
+            versions={versions}
+            isLoading={isVersionsLoading}
+            onRestore={onRestoreVersion}
+            onDelete={onDeleteVersion}
+            onRename={onRenameVersion}
+            onCreateSnapshot={onCreateSnapshot}
+            onClearAll={onClearAllVersions}
+          />
         )}
       </div>
     </>
   );
 }
+
+// Wrap the component in memo to prevent re-renders when props haven't changed
+export const MemoizedSidebarTabs = memo(SidebarTabs);
