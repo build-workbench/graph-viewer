@@ -15,7 +15,7 @@ import { AppHeader } from '@/components/layout/AppHeader';
 import { DiagramList } from '@/components/sidebar/DiagramList';
 import { CollapsedSidebar } from '@/components/layout/CollapsedSidebar';
 import { ErrorBoundary } from '@/components/layout/ErrorBoundary';
-import { SidebarTabs, type SidebarTab } from '@/components/sidebar/SidebarTabs';
+import { MemoizedSidebarTabs as SidebarTabs, type SidebarTab } from '@/components/sidebar/SidebarTabs';
 import { ConfirmDialog, PromptDialog, AlertDialog } from '@/components/dialogs/Dialogs';
 import { StaticExportNotice } from '@/components/landing/StaticExportNotice';
 import { useSettings } from '@/hooks/useSettings';

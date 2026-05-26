@@ -6,6 +6,7 @@ import {
   useMemo,
   useRef,
   useState,
+  memo,
   type MouseEvent,
   type WheelEvent,
 } from 'react';
@@ -29,7 +30,7 @@ export type PreviewPanelProps = {
   onExportError?: (message: string) => void;
 };
 
-export function PreviewPanel(props: PreviewPanelProps) {
+function PreviewPanelComponent(props: PreviewPanelProps) {
   const {
     svg,
     base64,
@@ -317,3 +318,4 @@ export function PreviewPanel(props: PreviewPanelProps) {
     </div>
   );
 }
+export const PreviewPanel = memo(PreviewPanelComponent);
