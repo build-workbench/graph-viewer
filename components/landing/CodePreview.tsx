@@ -4,14 +4,17 @@ import { useState } from 'react';
 import Link from 'next/link';
 import { ArrowRight, Sparkles } from 'lucide-react';
 import { SAMPLES } from '@/lib/diagramSamples';
+import type { LandingLocale } from '@/lib/landingI18n';
+import { LANDING_COPY } from '@/lib/landingI18n';
 
-const CODE_EXAMPLES = [
-  { name: 'Mermaid 流程图', code: SAMPLES.mermaid },
-  { name: 'Graphviz DOT', code: SAMPLES.graphviz },
-];
-
-export function CodePreview() {
+export function CodePreview({ locale }: { locale: LandingLocale }) {
+  const copy = LANDING_COPY[locale].codePreview;
   const [activeTab, setActiveTab] = useState(0);
+
+  const tabs = [
+    { name: copy.mermaidTab, code: SAMPLES.mermaid },
+    { name: copy.graphvizTab, code: SAMPLES.graphviz },
+  ];
 
   return (
     <div className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-xl">
@@ -30,7 +33,7 @@ export function CodePreview() {
       <div className="grid lg:grid-cols-2">
         <div className="border-b border-slate-200 lg:border-b-0 lg:border-r">
           <div className="flex border-b border-slate-200 bg-slate-50/50">
-            {CODE_EXAMPLES.map((ex, idx) => (
+            {tabs.map((ex, idx) => (
               <button
                 key={ex.name}
                 onClick={() => setActiveTab(idx)}
@@ -46,7 +49,7 @@ export function CodePreview() {
           </div>
           <div className="bg-slate-900 p-4">
             <pre className="overflow-x-auto text-sm leading-relaxed">
-              <code className="text-slate-300">{CODE_EXAMPLES[activeTab]?.code ?? ''}</code>
+              <code className="text-slate-300">{tabs[activeTab]?.code ?? ''}</code>
             </pre>
           </div>
         </div>
@@ -57,12 +60,12 @@ export function CodePreview() {
               <div className="mb-3 inline-flex h-16 w-16 items-center justify-center rounded-full bg-sky-50">
                 <Sparkles className="h-8 w-8 text-sky-500" />
               </div>
-              <p className="text-slate-500">实时预览区域</p>
+              <p className="text-slate-500">{copy.previewArea}</p>
               <Link
                 href="/editor/"
                 className="mt-4 inline-flex items-center gap-1 text-sm font-medium text-sky-600 hover:text-sky-700"
               >
-                立即体验 <ArrowRight className="h-4 w-4" />
+                {copy.tryNow} <ArrowRight className="h-4 w-4" />
               </Link>
             </div>
           </div>

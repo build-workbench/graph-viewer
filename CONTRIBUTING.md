@@ -6,7 +6,6 @@ Thank you for your interest in contributing to GraphViewer!
 
 - [Code of Conduct](#code-of-conduct)
 - [Getting Started](#getting-started)
-- [Spec-Driven Development Workflow](#spec-driven-development-workflow)
 - [How to Contribute](#how-to-contribute)
 - [Development Setup](#development-setup)
 - [Pull Request Process](#pull-request-process)
@@ -23,29 +22,7 @@ Be respectful, inclusive, and constructive in all interactions. We welcome contr
 2. Clone your fork: `git clone https://github.com/YOUR_USERNAME/graph-viewer.git`
 3. Install dependencies: `npm install`
 4. Start development server: `npm run dev`
-5. Read the [openspec/specs/](openspec/specs/) directory to understand our specification structure
-
-## Spec-Driven Development Workflow
-
-This project follows **Spec-Driven Development (SDD)** with **OpenSpec**. This means:
-
-1. **Specs are the Single Source of Truth** — All implementation details are defined in `openspec/specs/`
-2. **OpenSpec Workflow** — Use `/opsx:propose` to create changes, `/opsx:apply` to implement, `/opsx:archive` to finalize
-3. **Code Must Follow Specs** — Implementation must 100% comply with spec definitions
-4. **Tests Validate Specs** — Test cases must cover all acceptance criteria
-
-### Spec Directory
-
-```
-openspec/specs/
-├── product/          # Product features, roadmap, TODO
-├── architecture/     # Technical design documents (RFCs)
-├── api/              # API definitions (OpenAPI)
-├── data/             # Data schema definitions
-└── testing/          # BDD test specifications
-```
-
-For detailed workflow, see [AGENTS.md](AGENTS.md).
+5. Read [AGENTS.md](AGENTS.md) to understand project conventions and the engine/format change checklist
 
 ## How to Contribute
 
@@ -54,7 +31,7 @@ For detailed workflow, see [AGENTS.md](AGENTS.md).
 Before creating a bug report:
 
 - Check existing issues for duplicates
-- Verify the bug exists in the latest `main` branch
+- Verify the bug exists in the latest `master` branch
 
 Include in your report:
 
@@ -65,21 +42,20 @@ Include in your report:
 
 ### Suggesting Features
 
-1. Check [Product Roadmap](openspec/specs/product/roadmap.md) and [Product TODO](openspec/specs/product/todo.md)
-2. Open a GitHub Issue with:
-   - Clear feature description
-   - Use cases and user benefits
-   - Proposed approach (optional)
+GraphViewer is in a stable finalization phase. New features are not actively pursued, but well-scoped suggestions are welcome. Open a GitHub Issue with:
+
+- Clear feature description
+- Use cases and user benefits
+- Proposed approach (optional)
 
 ### Code Contributions
 
-1. **Pick an issue** from GitHub or [Product TODO](openspec/specs/product/todo.md)
-2. **Review specs** in `openspec/specs/` related to the issue
-3. **Create proposal** using `/opsx:propose` (or update existing specs if minor)
-4. **Fork and branch** — Create a feature branch from `main`
-5. **Implement** — Write code following specs 100%
-6. **Test** — Write tests based on spec acceptance criteria
-7. **Submit PR** — Include spec changes, test results, and screenshots for UI changes
+1. **Pick an issue** from GitHub
+2. **Fork and branch** — Create a feature branch from `master`
+3. **Write a failing test first** for bug fixes
+4. **Implement** — Follow conventions in [AGENTS.md](AGENTS.md)
+5. **Test** — Ensure tests cover the changed behavior
+6. **Submit PR** — Include test results and screenshots for UI changes
 
 ## Development Setup
 
@@ -125,7 +101,6 @@ npm run typecheck        # TypeScript type check
 ### PR Checklist
 
 - [ ] Code follows existing style
-- [ ] Specs updated/created (if applicable)
 - [ ] Tests added for new functionality
 - [ ] All tests passing
 - [ ] Linting passing
@@ -140,15 +115,13 @@ npm run typecheck        # TypeScript type check
 - **No magic strings**: Engine/format values from `lib/diagramConfig.ts`
 - **Small changes**: Prefer incremental changes
 
-See [CLAUDE.md](CLAUDE.md) for detailed conventions.
+See [AGENTS.md](AGENTS.md) for the engine/format change checklist and file map.
 
 ## Testing Requirements
 
 - **Unit tests**: Required for new lib functions
 - **Integration tests**: Required for hooks and components
 - **Smoke tests**: Must pass before merging
-
-Test specs are defined in [openspec/specs/testing/](openspec/specs/testing/).
 
 ## Questions?
 

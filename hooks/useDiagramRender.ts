@@ -2,7 +2,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import type { Engine, Format } from '@/lib/diagramConfig';
 import { canUseLocalRender as canUseLocalRenderConfig } from '@/lib/diagramConfig';
 import { logger } from '@/lib/logger';
-import { createRendererStrategy, RenderError } from '@/lib/render';
+import { renderDiagram as runRender, RenderError } from '@/lib/render';
 import { isApiError } from '@/lib/errors';
 
 type RenderOutputState = {
@@ -58,8 +58,8 @@ export function useDiagramRender(
     return Boolean(output.base64);
   }, [format, output]);
 
-  const rendererStrategy = useMemo(
-    () => createRendererStrategy({ enableRemoteRendering: remoteRenderingEnabled }),
+  const renderOptions = useMemo(
+    () => ({ enableRemoteRendering: remoteRenderingEnabled }),
     [remoteRenderingEnabled],
   );
 
@@ -163,8 +163,9 @@ export function useDiagramRender(
           return;
         }
 
-        const result = await rendererStrategy.render(
+        const result = await runRender(
           { engine, format, code, krokiBaseUrl },
+          renderOptions,
           signal,
         );
 
@@ -195,7 +196,7 @@ export function useDiagramRender(
         }
       }
     },
-    [applyOutputIfLatest, code, engine, format, krokiBaseUrl, rendererStrategy, resetOutput],
+    [applyOutputIfLatest, code, engine, format, krokiBaseUrl, renderOptions, resetOutput],
   );
 
   return {

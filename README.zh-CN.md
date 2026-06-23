@@ -230,7 +230,7 @@ npm run format       # Prettier 格式化
                SVG/PNG/PDF 输出
 ```
 
-详细信息请参见 [RFC-0001: 核心架构](openspec/specs/architecture/0001-core-architecture.md)。
+详细信息请参见 [架构文档](docs/zh-CN/01-getting-started/03-architecture.md)。
 
 ## 🔒 安全性
 
@@ -245,13 +245,12 @@ GraphViewer 实现多层安全防护：
 
 - [English Documentation](docs/en/README.md)
 - [中文文档](docs/zh-CN/README.md)
-- [架构 RFC](openspec/specs/architecture/0001-core-architecture.md)
 - [API 文档](docs/zh-CN/05-reference/02-api.md)
 - [贡献指南](CONTRIBUTING.md)
 
 ## 🗺️ 路线图
 
-GraphViewer 当前处于稳定收尾阶段。优先级是可靠性、文档准确性和部署清晰度，而不是继续扩张大功能面。详见 [产品路线图](openspec/specs/product/roadmap.md)。
+GraphViewer 当前处于稳定收尾阶段。优先级是可靠性、文档准确性和部署清晰度，而不是继续扩张大功能面。
 
 ## 🤝 贡献
 

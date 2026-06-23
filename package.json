@@ -11,8 +11,6 @@
     "dev": "next dev -p 3000",
     "build": "next build",
     "build:static": "node scripts/build-static-export.mjs",
-    "build:optimized": "node scripts/build-optimized.mjs",
-    "analyze": "cross-env ANALYZE=true next build",
     "start": "node .next/standalone/server.js",
     "lint": "eslint . --ext .ts,.tsx,.js,.jsx",
     "lint:fix": "eslint . --ext .ts,.tsx,.js,.jsx --fix",
@@ -22,7 +20,6 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "test:smoke": "node scripts/smoke-test.mjs",
-    "bench": "node scripts/bench.mjs",
     "sitemap": "node scripts/generate-sitemap.mjs"
   },
   "dependencies": {

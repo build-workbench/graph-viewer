@@ -230,7 +230,7 @@ User Input → Editor → Preview Engine
                SVG/PNG/PDF Output
 ```
 
-See [RFC-0001: Core Architecture](openspec/specs/architecture/0001-core-architecture.md) for details.
+See [Architecture Documentation](docs/en/01-getting-started/03-architecture.md) for details.
 
 ## 🔒 Security
 
@@ -245,13 +245,12 @@ See [Security Documentation](docs/en/05-reference/01-configuration.md) for detai
 
 - [English Documentation](docs/en/README.md)
 - [中文文档](docs/zh-CN/README.md)
-- [Architecture RFC](openspec/specs/architecture/0001-core-architecture.md)
 - [API Reference](docs/en/05-reference/02-api.md)
 - [Contributing Guide](CONTRIBUTING.md)
 
 ## 🗺️ Roadmap
 
-GraphViewer is in a stable finalization phase. The priority is reliability, documentation accuracy, and deployment clarity rather than adding broad new feature surfaces. See [Product Roadmap](openspec/specs/product/roadmap.md).
+GraphViewer is in a stable finalization phase. The priority is reliability, documentation accuracy, and deployment clarity rather than adding broad new feature surfaces.
 
 ## 🤝 Contributing
 

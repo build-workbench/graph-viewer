@@ -6,6 +6,7 @@ dist/
 
 # Local agent/plugin state is not product source.
 .claude/
+.devin/
 .omc/
 
 # Tool and deployment caches.

@@ -25,6 +25,6 @@ docs/
 
 ## Key Resources
 
-- [Architecture RFC](../openspec/specs/architecture/0001-core-architecture.md)
-- [API Specification](../openspec/specs/api/openapi.yaml)
+- [Architecture](en/01-getting-started/03-architecture.md)
+- [API Reference](en/05-reference/02-api.md)
 - [Contributing Guide](../CONTRIBUTING.md)
