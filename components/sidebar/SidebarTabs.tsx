@@ -1,6 +1,6 @@
 'use client';
 
-import { memo, useCallback } from 'react';
+import { memo } from 'react';
 import type { Engine } from '@/lib/diagramConfig';
 import type { VersionRecord } from '@/hooks/useVersionHistory';
 import type { AIConfig, AIAnalysisResult } from '@/hooks/useAIAssistant';
@@ -204,11 +204,6 @@ export function SidebarTabs(props: SidebarTabsProps) {
     onClearAllVersions,
   } = props;
 
-  // Memoize tab change callback to prevent unnecessary re-renders
-  const handleTabChange = useCallback((tab: SidebarTab) => {
-    onTabChange(tab);
-  }, [onTabChange]);
-
   return (
     <>
       {/* Tab 切换栏 */}
@@ -219,7 +214,7 @@ export function SidebarTabs(props: SidebarTabsProps) {
           return (
             <button
               key={tab.id}
-              onClick={() => handleTabChange(tab.id)}
+              onClick={() => onTabChange(tab.id)}
               className={`flex flex-1 items-center justify-center gap-1.5 px-3 py-2.5 text-xs font-medium transition ${
                 isActive ? tab.activeClass : 'text-slate-500 hover:bg-slate-50 hover:text-slate-700'
               }`}

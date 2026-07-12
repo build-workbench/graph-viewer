@@ -119,8 +119,6 @@ export type DiagramProviderProps = {
   remoteRenderingEnabled?: boolean;
   /** 自定义 Kroki 服务器 URL */
   customServerUrl?: string;
-  /** 静态导出模式下的引擎限制 */
-  limitEngines?: readonly Engine[];
 };
 
 /**

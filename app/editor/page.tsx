@@ -15,7 +15,10 @@ import { AppHeader } from '@/components/layout/AppHeader';
 import { DiagramList } from '@/components/sidebar/DiagramList';
 import { CollapsedSidebar } from '@/components/layout/CollapsedSidebar';
 import { ErrorBoundary } from '@/components/layout/ErrorBoundary';
-import { MemoizedSidebarTabs as SidebarTabs, type SidebarTab } from '@/components/sidebar/SidebarTabs';
+import {
+  MemoizedSidebarTabs as SidebarTabs,
+  type SidebarTab,
+} from '@/components/sidebar/SidebarTabs';
 import { ConfirmDialog, PromptDialog, AlertDialog } from '@/components/dialogs/Dialogs';
 import { StaticExportNotice } from '@/components/landing/StaticExportNotice';
 import { useSettings } from '@/hooks/useSettings';
@@ -51,6 +54,7 @@ function EditorPageContent() {
   // 从 Context 获取图表状态
   const {
     engine,
+    format,
     code,
     diagrams,
     currentId,
@@ -557,7 +561,7 @@ function EditorPageContent() {
               contentType={contentType}
               loading={loading}
               showPreview={showPreview}
-              format={settings.useCustomServer ? 'svg' : 'svg'}
+              format={format}
               error={pageError}
               code={code}
               engine={engine}

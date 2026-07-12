@@ -161,6 +161,9 @@ function buildCustomRequest(config: AIConfig, options: AICallOptions): APIReques
 // AiClient Class
 // ============================================================================
 
+/** AI 调用超时时间（毫秒） */
+const AI_CALL_TIMEOUT_MS = 30_000;
+
 /**
  * AiClient - AI API 调用客户端
  *
@@ -172,10 +175,15 @@ export class AiClient {
    *
    * @param config - AI 配置
    * @param options - 调用选项
+   * @param externalSignal - 可选的外部 AbortSignal，用于取消请求
    * @returns AI 响应内容
-   * @throws 如果 API 调用失败
+   * @throws 如果 API 调用失败或超时
    */
-  async call(config: AIConfig, options: AICallOptions): Promise<string> {
+  async call(
+    config: AIConfig,
+    options: AICallOptions,
+    externalSignal?: AbortSignal,
+  ): Promise<string> {
     if (!config.apiKey) {
       throw new Error('请先配置 AI API Key');
     }
@@ -199,11 +207,45 @@ export class AiClient {
         throw new Error(`不支持的 AI 提供商: ${config.provider}`);
     }
 
-    const response = await fetch(request.endpoint, {
-      method: 'POST',
-      headers: request.headers,
-      body: JSON.stringify(request.body),
-    });
+    // 超时 AbortController
+    const timeoutController = new AbortController();
+    const timeoutId = setTimeout(() => timeoutController.abort(), AI_CALL_TIMEOUT_MS);
+
+    // 合并外部 signal 与超时 signal：外部 abort 时同步 abort 超时控制器
+    const onExternalAbort = () => timeoutController.abort();
+    if (externalSignal) {
+      if (externalSignal.aborted) {
+        clearTimeout(timeoutId);
+        throw new Error('AI 请求已取消');
+      }
+      externalSignal.addEventListener('abort', onExternalAbort, { once: true });
+    }
+    const signal = timeoutController.signal;
+
+    let response: Response;
+    try {
+      response = await fetch(request.endpoint, {
+        method: 'POST',
+        headers: request.headers,
+        body: JSON.stringify(request.body),
+        signal,
+      });
+    } catch (e: unknown) {
+      clearTimeout(timeoutId);
+      if (e instanceof Error && e.name === 'AbortError') {
+        if (externalSignal?.aborted) {
+          throw new Error('AI 请求已取消');
+        }
+        throw new Error(`AI 请求超时（${AI_CALL_TIMEOUT_MS / 1000}s）`);
+      }
+      throw e;
+    } finally {
+      if (externalSignal) {
+        externalSignal.removeEventListener('abort', onExternalAbort);
+      }
+    }
+
+    clearTimeout(timeoutId);
 
     if (!response.ok) {
       const errorData = await response.json().catch(() => ({}));

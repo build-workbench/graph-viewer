@@ -254,13 +254,7 @@ export function useDiagramState(initialCode: string): DiagramState & DiagramStat
 
   const handleSetCurrentId = useCallback((id: string) => {
     if (!id) return;
-    setDiagrams((prev) => {
-      const found = prev.find((d) => d.id === id);
-      if (found) {
-        setCurrentId(id);
-      }
-      return prev;
-    });
+    setCurrentId(id);
   }, []);
 
   const createDiagram = useCallback(

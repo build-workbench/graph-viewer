@@ -51,7 +51,10 @@ const GRAPHVIZ_WASM_BASE_URL =
 let mermaidPromise: Promise<MermaidApi> | null = null;
 let graphvizPromise: Promise<GraphvizApi> | null = null;
 
-async function loadMermaid(): Promise<MermaidApi> {
+/**
+ * 加载并初始化 Mermaid（单例，重复调用返回同一 Promise）
+ */
+export function loadMermaid(): Promise<MermaidApi> {
   if (!mermaidPromise) {
     mermaidPromise = import('mermaid')
       .then((module) => {
@@ -69,7 +72,10 @@ async function loadMermaid(): Promise<MermaidApi> {
   return mermaidPromise;
 }
 
-async function loadGraphviz(): Promise<GraphvizApi> {
+/**
+ * 加载并初始化 Graphviz WASM（单例，重复调用返回同一 Promise）
+ */
+export function loadGraphviz(): Promise<GraphvizApi> {
   if (!graphvizPromise) {
     graphvizPromise = import('@hpcc-js/wasm')
       .then(async (module) => {
@@ -196,11 +202,6 @@ async function renderRemote(
 export type RenderOptions = {
   enableRemoteRendering: boolean;
 };
-
-export function canRender(engine: Engine, format: Format, options: RenderOptions): boolean {
-  if (canUseLocalRender(engine, format)) return true;
-  return options.enableRemoteRendering;
-}
 
 export async function renderDiagram(
   input: RenderInput,

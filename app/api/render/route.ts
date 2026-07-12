@@ -201,7 +201,6 @@ export async function POST(req: NextRequest) {
     const k = renderCache.createKey(base, engine, format, code);
     const cached = renderCache.get(k);
     if (cached && !renderCache.isExpired(cached, now)) {
-      // Add caching headers for client-side cache reuse
       const cacheControl = 'public, max-age=3600';
       const etagHash = createHash('sha256')
         .update(cached.svg || cached.base64 || '')
@@ -209,52 +208,28 @@ export async function POST(req: NextRequest) {
         .substring(0, 16);
       const etag = `"${etagHash}"`;
 
-      if (binary) {
-        if (format === 'svg' && cached.svg) {
-          return new NextResponse(toArrayBuffer(Buffer.from(cached.svg)), {
-            status: 200,
-            headers: {
-              'Content-Type': cached.contentType,
-              'Content-Disposition': `attachment; filename=diagram.${format}`,
-              'Cache-Control': cacheControl,
-              ETag: etag,
-            },
-          });
-        }
-        if (cached.base64) {
-          const buf = Buffer.from(cached.base64, 'base64');
-          return new NextResponse(toArrayBuffer(buf), {
-            status: 200,
-            headers: {
-              'Content-Type': cached.contentType,
-              'Content-Disposition': `attachment; filename=diagram.${format}`,
-              'Cache-Control': cacheControl,
-              ETag: etag,
-            },
-          });
-        }
+      const svgText = format === 'svg' ? cached.svg : undefined;
+      const body = svgText ?? cached.base64;
+      if (!body) {
+        // 缓存条目无可用内容，回退到正常渲染流程
+      } else if (binary) {
+        const buf = svgText ? Buffer.from(svgText) : Buffer.from(cached.base64!, 'base64');
+        return new NextResponse(toArrayBuffer(buf), {
+          status: 200,
+          headers: {
+            'Content-Type': cached.contentType,
+            'Content-Disposition': `attachment; filename=diagram.${format}`,
+            'Cache-Control': cacheControl,
+            ETag: etag,
+          },
+        });
       } else {
-        if (format === 'svg' && cached.svg) {
-          return NextResponse.json(
-            { contentType: cached.contentType, svg: cached.svg },
-            {
-              headers: {
-                'Cache-Control': cacheControl,
-                ETag: etag,
-              },
-            },
-          );
-        } else if (cached.base64) {
-          return NextResponse.json(
-            { contentType: cached.contentType, base64: cached.base64 },
-            {
-              headers: {
-                'Cache-Control': cacheControl,
-                ETag: etag,
-              },
-            },
-          );
-        }
+        const jsonBody: Record<string, string> = { contentType: cached.contentType };
+        if (svgText) jsonBody.svg = svgText;
+        else jsonBody.base64 = cached.base64!;
+        return NextResponse.json(jsonBody, {
+          headers: { 'Cache-Control': cacheControl, ETag: etag },
+        });
       }
     }
 

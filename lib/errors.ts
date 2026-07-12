@@ -20,7 +20,6 @@ export enum ErrorCode {
 
   // 渲染错误
   LOCAL_RENDER_FAILED = 'LOCAL_RENDER_FAILED',
-  REMOTE_RENDER_FAILED = 'REMOTE_RENDER_FAILED',
   REMOTE_DISABLED = 'REMOTE_DISABLED',
   KROKI_TIMEOUT = 'KROKI_TIMEOUT',
   KROKI_NETWORK_ERROR = 'KROKI_NETWORK_ERROR',
@@ -54,7 +53,6 @@ const ERROR_MESSAGES: Record<ErrorCode, string> = {
   [ErrorCode.KROKI_BASE_URL_NOT_ALLOWED]: 'Kroki URL 不在允许列表中',
 
   [ErrorCode.LOCAL_RENDER_FAILED]: '本地渲染失败',
-  [ErrorCode.REMOTE_RENDER_FAILED]: '远程渲染失败',
   [ErrorCode.REMOTE_DISABLED]:
     '当前静态部署模式下不可用该渲染方式，请切换到 SVG 本地渲染或使用完整服务部署。',
   [ErrorCode.KROKI_TIMEOUT]: '远程渲染服务超时，请稍后重试或检查网络连接。',
@@ -167,15 +165,4 @@ export function getErrorMessage(e: unknown, fallback = 'Unknown error'): string 
 
 export function isAbortError(e: unknown): boolean {
   return e instanceof Error && e.name === 'AbortError';
-}
-
-export function isNetworkError(e: unknown): boolean {
-  if (!(e instanceof Error)) return false;
-  const msg = e.message.toLowerCase();
-  return (
-    msg.includes('network') ||
-    msg.includes('fetch') ||
-    msg.includes('timeout') ||
-    msg.includes('abort')
-  );
 }
