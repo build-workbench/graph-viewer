@@ -22,10 +22,7 @@ const staticPages = [
 ];
 
 // Documentation pages
-const docsPages = [
-  { path: '/docs/en/', priority: '0.8', changefreq: 'monthly' },
-  { path: '/docs/zh-CN/', priority: '0.8', changefreq: 'monthly' },
-];
+const docsPages = [{ path: '/docs/', priority: '0.8', changefreq: 'monthly' }];
 
 /**
  * Generate ISO date string

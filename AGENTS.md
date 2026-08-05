@@ -14,29 +14,29 @@ GraphViewer 是 Next.js 15 + React 19 构建的多引擎图表编辑器 demo：�
 
 ## 关键文件地图
 
-| 责任                   | 文件                                                       |
-| ---------------------- | ---------------------------------------------------------- |
-| 引擎/格式/展示分组     | `lib/diagramConfig.ts`                                     |
-| 示例代码               | `lib/diagramSamples.ts`                                    |
-| 模板                   | `lib/diagramTemplates.ts`                                  |
-| 图表文档类型           | `lib/types.ts`                                             |
-| 本地存储               | `lib/storage.ts`                                           |
-| 应用配置               | `lib/config.ts`                                            |
-| 图表状态 Context       | `contexts/DiagramContext.tsx`                              |
-| 工作区状态             | `hooks/useDiagramState.ts`                                 |
-| 实时预览 debounce/取消 | `hooks/useLivePreview.ts`                                  |
-| 本地/远程渲染          | `hooks/useDiagramRender.ts`                                |
-| 渲染实现               | `lib/render.ts`                                            |
-| 错误系统               | `lib/errors.ts`                                            |
-| Kroki API route        | `app/api/render/route.ts`                                  |
-| API 缓存/限流          | `lib/server/renderCache.ts`, `lib/server/rateLimit.ts`     |
-| AI 客户端              | `lib/ai/`                                                  |
-| 编辑器 UI              | `components/editor/EditorPanel.tsx`                        |
-| 侧边栏 Tab 切换        | `components/sidebar/SidebarTabs.tsx`                       |
-| 预览 UI                | `components/preview/PreviewPanel.tsx`                      |
-| 导出工具栏             | `components/preview/PreviewToolbar.tsx`                    |
-| 落地页（双语共享）     | `components/landing/LandingPage.tsx`, `lib/landingI18n.ts` |
-| 静态导出               | `scripts/build-static-export.mjs`, `next.config.js`        |
+| 责任                   | 文件                                                   |
+| ---------------------- | ------------------------------------------------------ |
+| 引擎/格式/展示分组     | `lib/diagramConfig.ts`                                 |
+| 示例代码               | `lib/diagramSamples.ts`                                |
+| 模板                   | `lib/diagramTemplates.ts`                              |
+| 图表文档类型           | `lib/types.ts`                                         |
+| 本地存储               | `lib/storage.ts`                                       |
+| 应用配置               | `lib/config.ts`                                        |
+| 图表状态 Context       | `contexts/DiagramContext.tsx`                          |
+| 工作区状态             | `hooks/useDiagramState.ts`                             |
+| 实时预览 debounce/取消 | `hooks/useLivePreview.ts`                              |
+| 本地/远程渲染          | `hooks/useDiagramRender.ts`                            |
+| 渲染实现               | `lib/render.ts`                                        |
+| 错误系统               | `lib/errors.ts`                                        |
+| Kroki API route        | `app/api/render/route.ts`                              |
+| API 缓存/限流          | `lib/server/renderCache.ts`, `lib/server/rateLimit.ts` |
+| AI 客户端              | `lib/ai/`                                              |
+| 编辑器 UI              | `components/editor/EditorPanel.tsx`                    |
+| 侧边栏 Tab 切换        | `components/sidebar/SidebarTabs.tsx`                   |
+| 预览 UI                | `components/preview/PreviewPanel.tsx`                  |
+| 导出工具栏             | `components/preview/PreviewToolbar.tsx`                |
+| 落地页                 | `components/landing/LandingPage.tsx`                   |
+| 静态导出               | `scripts/build-static-export.mjs`, `next.config.js`    |
 
 ## 引擎/格式变更 Checklist
 
@@ -50,7 +50,7 @@ GraphViewer 是 Next.js 15 + React 19 构建的多引擎图表编辑器 demo：�
 6. `app/api/render/route.ts`：API 白名单。
 7. `components/editor/EditorPanel.tsx`：选择器。
 8. `components/preview/*`：预览和导出入口。
-9. `lib/landingI18n.ts` + `components/landing/LandingPage.tsx`：门户展示能力。
+9. `components/landing/LandingPage.tsx`：门户展示能力。
 10. 相关测试。
 
 ## 安全边界
@@ -87,5 +87,5 @@ npm run test:smoke http://127.0.0.1:3000
 ## 输出语言
 
 - 用户交互默认中文。
-- UI 文案保持中文（落地页通过 `lib/landingI18n.ts` 提供英文版）。
-- 用户文档可按受众使用中文或中英双语；不要混入无项目上下文的 boilerplate。
+- UI 文案保持中文（落地页文案内联在 `components/landing/LandingPage.tsx`）。
+- 用户文档使用中文；不要混入无项目上下文的 boilerplate。

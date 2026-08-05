@@ -4,16 +4,22 @@ import { useState } from 'react';
 import Link from 'next/link';
 import { ArrowRight, Sparkles } from 'lucide-react';
 import { SAMPLES } from '@/lib/diagramSamples';
-import type { LandingLocale } from '@/lib/landingI18n';
-import { LANDING_COPY } from '@/lib/landingI18n';
 
-export function CodePreview({ locale }: { locale: LandingLocale }) {
-  const copy = LANDING_COPY[locale].codePreview;
+const COPY = {
+  h2: '简洁直观的编辑体验',
+  p: '实时预览、语法高亮、自动补全，让图表创作更加流畅',
+  mermaidTab: 'Mermaid 流程图',
+  graphvizTab: 'Graphviz DOT',
+  previewArea: '实时预览区域',
+  tryNow: '立即体验',
+};
+
+export function CodePreview() {
   const [activeTab, setActiveTab] = useState(0);
 
   const tabs = [
-    { name: copy.mermaidTab, code: SAMPLES.mermaid },
-    { name: copy.graphvizTab, code: SAMPLES.graphviz },
+    { name: COPY.mermaidTab, code: SAMPLES.mermaid },
+    { name: COPY.graphvizTab, code: SAMPLES.graphviz },
   ];
 
   return (
@@ -60,12 +66,12 @@ export function CodePreview({ locale }: { locale: LandingLocale }) {
               <div className="mb-3 inline-flex h-16 w-16 items-center justify-center rounded-full bg-sky-50">
                 <Sparkles className="h-8 w-8 text-sky-500" />
               </div>
-              <p className="text-slate-500">{copy.previewArea}</p>
+              <p className="text-slate-500">{COPY.previewArea}</p>
               <Link
                 href="/editor/"
                 className="mt-4 inline-flex items-center gap-1 text-sm font-medium text-sky-600 hover:text-sky-700"
               >
-                {copy.tryNow} <ArrowRight className="h-4 w-4" />
+                {COPY.tryNow} <ArrowRight className="h-4 w-4" />
               </Link>
             </div>
           </div>
