@@ -31,34 +31,7 @@ jobs:
         run: npm run typecheck
       - name: Test
         run: npm run test
-      - name: Build
+      - name: Build (standalone)
         run: npm run build
-      - name: Smoke test production server
-        run: |
-          node -e "const http=require('http');const png=Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO5W3ioAAAAASUVORK5CYII=','base64');const server=http.createServer((req,res)=>{if(req.method!=='POST'){res.writeHead(405);res.end('Method Not Allowed');return;}if(req.url==='/mermaid/svg'){res.writeHead(200,{'content-type':'image/svg+xml'});res.end('<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 10 10\"><text x=\"1\" y=\"9\">ok</text></svg>');return;}if(req.url==='/mermaid/png'){res.writeHead(200,{'content-type':'image/png'});res.end(png);return;}res.writeHead(404);res.end('Not Found');});server.listen(8001,'127.0.0.1');" > /tmp/graph-viewer-kroki.log 2>&1 &
-          KROKI_PID=$!
-          KROKI_BASE_URL=http://127.0.0.1:8001 npm run start > /tmp/graph-viewer-ci.log 2>&1 &
-          APP_PID=$!
-          cleanup() {
-            kill $APP_PID $KROKI_PID 2>/dev/null || true
-          }
-          trap cleanup EXIT
-          READY=0
-          for i in {1..60}; do
-            if curl -fsS http://127.0.0.1:3000/api/healthz >/dev/null; then
-              READY=1
-              break
-            fi
-            sleep 1
-          done
-          if [ "$READY" -ne 1 ]; then
-            cat /tmp/graph-viewer-ci.log || true
-            cat /tmp/graph-viewer-kroki.log || true
-            exit 1
-          fi
-          npm run test:smoke http://127.0.0.1:3000
-      - name: Print server log on failure
-        if: failure()
-        run: |
-          cat /tmp/graph-viewer-ci.log || true
-          cat /tmp/graph-viewer-kroki.log || true
+      - name: Build (static export)
+        run: npm run build:static

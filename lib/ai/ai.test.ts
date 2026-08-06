@@ -5,7 +5,7 @@ import {
   buildAnalysisPrompt,
   buildGenerationPrompt,
   buildFixPrompt,
-} from '../AiClient';
+} from './AiClient';
 import {
   normalizeAIConfig,
   getDefaultModelForProvider,
@@ -13,8 +13,8 @@ import {
   getVisibleAIProviders,
   isCustomAIProvider,
   validateApiEndpoint,
-} from '../AiConfig';
-import type { AIConfig } from '../types';
+} from './AiConfig';
+import type { AIConfig } from './types';
 
 describe('lib/ai', () => {
   describe('AiConfig', () => {

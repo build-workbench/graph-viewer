@@ -1,5 +1,5 @@
 import { describe, expect, it, vi } from 'vitest';
-import { SvgPreprocessor } from '../SvgPreprocessor';
+import { SvgPreprocessor } from './SvgPreprocessor';
 
 describe('SvgPreprocessor', () => {
   it('parses a valid svg only once during preprocess', () => {

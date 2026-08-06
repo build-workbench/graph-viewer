@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { renderDiagram, RenderError } from '../render';
+import { renderDiagram, RenderError } from './render';
 import { ErrorCode } from '@/lib/errors';
 
 describe('render module', () => {

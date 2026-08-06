@@ -1,6 +1,6 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import { renderHook, act } from '@testing-library/react';
-import { useLivePreview } from '../useLivePreview';
+import { useLivePreview } from './useLivePreview';
 
 describe('useLivePreview', () => {
   beforeEach(() => {

@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { isDiagramDoc, isDiagramDocArray, isPersistedWorkspace, type DiagramDoc } from '../types';
+import { isDiagramDoc, isDiagramDocArray, isPersistedWorkspace, type DiagramDoc } from './types';
 
 describe('typeGuards', () => {
   const validDiagram: DiagramDoc = {

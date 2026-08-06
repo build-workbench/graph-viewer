@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server';
+import { isStaticExport } from '@/lib/runtime';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
@@ -51,8 +52,6 @@ async function checkKroki(): Promise<{ status: 'ok' | 'error'; latency?: number;
 }
 
 export async function GET() {
-  const isStaticExport = process.env.NEXT_PUBLIC_STATIC_EXPORT === 'true';
-
   // 静态导出模式下不需要检查 Kroki
   if (isStaticExport) {
     return NextResponse.json(

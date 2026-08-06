@@ -6,11 +6,11 @@ import {
   DiagramProvider,
   useDiagramStateContext,
   useDiagramRenderContext,
-} from '@/contexts/DiagramContext';
+} from '@/lib/diagramContext';
 import { PreviewPanel } from '@/components/preview/PreviewPanel';
 import { SettingsModal } from '@/components/dialogs/SettingsModal';
 import { TemplateModal } from '@/components/dialogs/TemplateModal';
-import { Toast } from '@/components/feedback/Toast';
+import { Toast } from '@/components/layout/Toast';
 import { AppHeader } from '@/components/layout/AppHeader';
 import { DiagramList } from '@/components/sidebar/DiagramList';
 import { CollapsedSidebar } from '@/components/layout/CollapsedSidebar';
@@ -28,11 +28,10 @@ import { useVersionHistory } from '@/hooks/useVersionHistory';
 import { useLivePreview } from '@/hooks/useLivePreview';
 import { SAMPLES } from '@/lib/diagramSamples';
 import { exportService } from '@/lib/export';
+import { isStaticExport, remoteRenderingEnabled } from '@/lib/runtime';
 import type { DiagramTemplate } from '@/lib/diagramTemplates';
 import type { VersionRecord } from '@/hooks/useVersionHistory';
 import { Loader2, ArrowLeft } from 'lucide-react';
-
-const isStaticExport = process.env.NEXT_PUBLIC_STATIC_EXPORT === 'true';
 
 function LoadingScreen() {
   return (
@@ -455,7 +454,7 @@ function EditorPageContent() {
           onClose={() => setShowSettings(false)}
           settings={settings}
           onSave={saveSettings}
-          remoteRenderingEnabled={!isStaticExport}
+          remoteRenderingEnabled={remoteRenderingEnabled}
           isStaticExport={isStaticExport}
         />
         <TemplateModal
@@ -581,7 +580,7 @@ function EditorPageContent() {
  */
 export default function EditorPage() {
   return (
-    <DiagramProvider remoteRenderingEnabled={!isStaticExport} customServerUrl={undefined}>
+    <DiagramProvider remoteRenderingEnabled={remoteRenderingEnabled} customServerUrl={undefined}>
       <EditorPageContent />
     </DiagramProvider>
   );

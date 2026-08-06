@@ -19,17 +19,12 @@
   <a href="https://github.com/LessUp/graph-viewer/actions/workflows/pages.yml">
     <img src="https://img.shields.io/badge/Pages-Deploy-success.svg" alt="Pages Deploy">
   </a>
-  <a href="https://github.com/LessUp/graph-viewer/actions/workflows/lighthouse.yml">
-    <img src="https://img.shields.io/badge/Lighthouse-optimized-purple.svg" alt="Lighthouse">
-  </a>
   <img src="https://img.shields.io/badge/Next.js-15-black.svg" alt="Next.js">
   <img src="https://img.shields.io/badge/React-19-61DAFB.svg" alt="React">
 </p>
 
 <p align="center">
-  <a href="https://lessup.github.io/graph-viewer/"><strong>🚀 在线演示</strong></a> •
-  <a href="./docs/README.md"><strong>📖 文档</strong></a> •
-  <a href="./CHANGELOG.md"><strong>📝 更新日志</strong></a>
+  <a href="https://lessup.github.io/graph-viewer/"><strong>🚀 在线演示</strong></a>
 </p>
 
 ---
@@ -37,7 +32,6 @@
 ## 目录
 
 - [为什么选择 GraphViewer？](#为什么选择-graphviewer)
-- [界面截图](#界面截图)
 - [核心特性](#核心特性)
 - [快速开始](#快速开始)
 - [支持的引擎](#支持的引擎)
@@ -45,9 +39,7 @@
 - [开发](#开发)
 - [架构](#架构)
 - [安全性](#安全性)
-- [文档](#文档)
-- [路线图](#路线图)
-- [贡献](#贡献)
+- [项目状态](#项目状态)
 - [许可证](#许可证)
 
 ---
@@ -61,30 +53,6 @@
 | **引擎支持** | 16+ 引擎，统一界面      | 通常仅 3-5 个    |
 | **分享大小** | ~100 字节 (LZ 压缩 URL) | 大文件或外部链接 |
 | **离线支持** | ✅ 本地引擎完全离线     | ❌ 需要网络连接  |
-
-## 📸 界面截图
-
-<p align="center">
-  <img src="./public/screenshots/editor-preview.svg" alt="GraphViewer 编辑器与实时预览界面" width="800">
-</p>
-
-<p align="center">
-  <em>现代化界面，实时预览，多引擎支持，一键导出</em>
-</p>
-
-### 🎬 快速演示
-
-```mermaid
-graph TD
-    A[编写图表代码] --> B{选择渲染引擎}
-    B -->|Mermaid| C[本地 WASM 渲染]
-    B -->|PlantUML| D[Kroki 云端渲染]
-    B -->|Graphviz| C
-    C --> E[即时 SVG 预览]
-    D --> E
-    E --> F[导出 PNG/PDF/HTML]
-    E --> G[通过 URL 分享]
-```
 
 ## ✨ 核心特性
 
@@ -106,14 +74,9 @@ graph TD
 ### 安装
 
 ```bash
-# 克隆仓库
 git clone https://github.com/LessUp/graph-viewer.git
 cd graph-viewer
-
-# 安装依赖
 npm install
-
-# 启动开发服务器
 npm run dev
 ```
 
@@ -122,10 +85,6 @@ npm run dev
 ### 环境配置（可选）
 
 复制 `.env.example` 为 `.env` 进行自定义配置：
-
-```bash
-cp .env.example .env
-```
 
 | 变量                          | 说明                                  | 默认值             |
 | ----------------------------- | ------------------------------------- | ------------------ |
@@ -153,25 +112,33 @@ flowchart TD
 
 ## 🔧 支持的引擎
 
-### 本地渲染（快速且私密）
+### 本地渲染（快速且私密，无需网络）
 
-| 引擎                               | 类别 | 说明                     |
-| ---------------------------------- | ---- | ------------------------ |
-| [Mermaid](https://mermaid.js.org/) | 通用 | 流程图、时序图、甘特图等 |
-| [Graphviz](https://graphviz.org/)  | 图   | 多种布局引擎的图可视化   |
+| 引擎                                      | 说明                     |
+| ----------------------------------------- | ------------------------ |
+| [Mermaid](https://mermaid.js.org/)        | 流程图、时序图、甘特图等 |
+| [Graphviz](https://graphviz.org/)         | 多种布局引擎的图可视化   |
+| [Flowchart.js](https://flowchart.js.org/) | 简单易用的流程图语法     |
 
-### 远程渲染（通过 Kroki）
+### 远程渲染（通过 Kroki 代理）
 
-| 引擎                              | 类别 | 说明                           |
-| --------------------------------- | ---- | ------------------------------ |
-| [PlantUML](https://plantuml.com/) | 通用 | UML 图、思维导图、工作分解结构 |
-| [D2](https://d2lang.com/)         | 通用 | 现代声明式图表                 |
+| 引擎                                                                                  | 说明                           |
+| ------------------------------------------------------------------------------------- | ------------------------------ |
+| [PlantUML](https://plantuml.com/)                                                     | UML 图、思维导图、工作分解结构 |
+| [D2](https://d2lang.com/)                                                             | 现代声明式图表                 |
+| [Nomnoml](https://nomnoml.com/)                                                       | 简洁的 UML 绘图                |
+| [Ditaa](https://ditaa.sourceforge.net/)                                               | ASCII 艺术转图表               |
+| BlockDiag / NwDiag / ActDiag / SeqDiag                                                | 块状图、网络图、活动图、时序图 |
+| [ERD](https://github.com/BurntSushi/erd)                                              | 实体关系图                     |
+| [SVGBob](https://github.com/ivanceras/svgbob)                                         | ASCII 转 SVG                   |
+| [WaveDrom](https://wavedrom.com/)                                                     | 数字时序波形图                 |
+| [Vega](https://vega.github.io/vega/) / [Vega-Lite](https://vega.github.io/vega-lite/) | 声明式数据可视化               |
 
-**+ 12 个更多引擎**：查看[完整列表 →](docs/04-features/02-rendering.md)
+> 静态导出模式（GitHub Pages）仅启用本地 3 引擎；完整服务模式（Docker/Node）通过 `/api/render` 代理 Kroki 支持全部 16 引擎。
 
 ## 🚢 部署
 
-### Docker (推荐)
+### Docker (推荐，完整服务模式)
 
 ```bash
 # 生产环境 + 公共 Kroki
@@ -187,13 +154,15 @@ docker compose --profile prod --profile kroki up -d
 | `kroki` | 自建 Kroki 渲染服务 |
 | `dev`   | 开发环境（热重载）  |
 
-### GitHub Pages
+便捷脚本：`ENV=prod ./scripts/deploy.sh`。
+
+### GitHub Pages (静态导出模式)
 
 ```bash
 npm run build:static
 ```
 
-静态托管详见 [GitHub Pages 指南](docs/03-deployment/02-github-pages.md)，完整服务模式详见 [Docker 指南](docs/03-deployment/01-docker.md)。
+构建产物输出到 `out/`，仅含本地 3 引擎，无需服务端。推送到 `master` 分支会通过 `.github/workflows/pages.yml` 自动部署。
 
 ## 🛠️ 开发
 
@@ -204,7 +173,7 @@ npm run build:static # 静态导出 (用于 GitHub Pages)
 npm run start        # 生产服务器
 
 # 代码质量
-npm run test         # 运行单元测试 (vitest)
+npm run test         # 单元测试 (vitest)
 npm run lint         # ESLint 检查
 npm run typecheck    # TypeScript 检查
 npm run format       # Prettier 格式化
@@ -213,49 +182,78 @@ npm run format       # Prettier 格式化
 ## 🏗️ 架构
 
 ```
-用户输入 → 编辑器 → 预览引擎
+用户输入 -> 编辑器 -> 预览引擎
                     ↓
          ┌──────────┴──────────┐
          ↓                     ↓
    本地 WASM             远程 Kroki
-   (Mermaid,              (其他所有
-    Graphviz)              引擎)
+   (Mermaid /              (其他所有
+    Flowchart /             引擎)
+    Graphviz)
          ↓                     ↓
          └──────────┬──────────┘
                     ↓
                SVG/PNG/PDF 输出
 ```
 
-详细信息请参见 [架构文档](docs/01-getting-started/03-architecture.md)。
+### 目录结构
+
+```
+app/          路由层 (Next.js App Router)
+  editor/         编辑器页面
+  api/render/     Kroki 代理 API
+  api/healthz/    健康检查
+components/   UI 层 (按功能域分组)
+  editor/ preview/ sidebar/ ai/ version/ dialogs/ landing/ layout/
+hooks/        React 逻辑层 (状态、渲染、版本历史、AI、设置)
+lib/          纯逻辑层 + 状态层
+  diagramConfig.ts    引擎/格式/分组的单一事实源
+  runtime.ts          静态导出模式判断的单一事实源
+  diagramContext.tsx  图表状态 Context
+  render.ts           本地 WASM / 远程 Kroki 渲染分流
+  ai/ export/ server/ AI、导出、服务端缓存与限流
+scripts/      静态导出 / smoke 测试 / Docker 部署
+```
+
+### 关键文件地图
+
+| 责任               | 文件                                                   |
+| ------------------ | ------------------------------------------------------ |
+| 引擎/格式/展示分组 | `lib/diagramConfig.ts`                                 |
+| 运行时环境判断     | `lib/runtime.ts`                                       |
+| 应用配置常量       | `lib/config.ts`                                        |
+| 图表状态 Context   | `lib/diagramContext.tsx`                               |
+| 工作区状态         | `hooks/useDiagramState.ts`                             |
+| 本地/远程渲染分流  | `hooks/useDiagramRender.ts`、`lib/render.ts`           |
+| 实时预览           | `hooks/useLivePreview.ts`                              |
+| Kroki API route    | `app/api/render/route.ts`                              |
+| API 缓存/限流      | `lib/server/renderCache.ts`、`lib/server/rateLimit.ts` |
+| 错误系统           | `lib/errors.ts`                                        |
+| AI 客户端          | `lib/ai/`                                              |
+| 导出               | `lib/export/`                                          |
+| 静态导出           | `scripts/build-static-export.mjs`、`next.config.js`    |
+
+### 验证命令
+
+```bash
+npm run lint          # ESLint
+npm run typecheck     # tsc --noEmit
+npm run test          # Vitest
+npm run build         # standalone 构建 (完整服务版)
+npm run build:static  # 静态导出 (GitHub Pages 版)
+```
 
 ## 🔒 安全性
 
-GraphViewer 实现多层安全防护：
+- 使用 DOMPurify 净化 SVG，Mermaid 严格安全级别
+- Kroki URL 规范化并受 allowlist 约束
+- 输入长度限制、请求超时、速率限制、inflight 去重
+- API Key 不写入 localStorage；AI 面板浏览器直连供应商
+- 安全响应头（X-Frame-Options、X-Content-Type-Options 等）
 
-- 使用 DOMPurify SVG 净化，Mermaid 严格安全级别
-- 输入验证、请求超时和安全响应头
+## 📌 项目状态
 
-详见 [安全配置文档](docs/05-reference/01-configuration.md)。
-
-## 📚 文档
-
-- [使用文档](docs/README.md)
-- [API 文档](docs/05-reference/02-api.md)
-- [贡献指南](CONTRIBUTING.md)
-
-## 🗺️ 路线图
-
-GraphViewer 当前处于稳定收尾阶段。优先级是可靠性、文档准确性和部署清晰度，而不是继续扩张大功能面。
-
-## 🤝 贡献
-
-我们欢迎贡献！请阅读[贡献指南](CONTRIBUTING.md)和[AI Agent 工作流](AGENTS.md)后再提交更改。
-
-1. Fork 本仓库
-2. 创建功能分支 (`git checkout -b feature/amazing-feature`)
-3. 提交更改 (`git commit -m '添加新功能'`)
-4. 推送到分支 (`git push origin feature/amazing-feature`)
-5. 创建 Pull Request
+本项目为业余项目，现已进入**归档状态**，不再主动维护。代码与文档已精简至可自解释的程度，可供参考与二次开发。
 
 ## 📄 许可证
 

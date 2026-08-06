@@ -1,7 +1,6 @@
 /** @type {import('next').NextConfig} */
 
 const isGitHubPages = process.env.GITHUB_PAGES === 'true';
-const isLighthouseCI = process.env.LHCI === 'true';
 const isProduction = process.env.NODE_ENV === 'production';
 
 // GitHub Pages 动态 basePath：从 GITHUB_REPOSITORY 检测仓库名
@@ -14,7 +13,7 @@ if (process.env.GITHUB_REPOSITORY) {
 }
 const gitHubPagesBasePath = `/${gitHubPagesRepoName}`;
 
-const isStaticExport = isGitHubPages || isLighthouseCI;
+const isStaticExport = isGitHubPages;
 
 const nextConfig = {
   reactStrictMode: true,
@@ -36,11 +35,6 @@ const nextConfig = {
     images: { unoptimized: true, remotePatterns: [] },
   }),
 
-  ...(isLighthouseCI && {
-    trailingSlash: true,
-    images: { unoptimized: true, remotePatterns: [] },
-  }),
-
   experimental: {
     // Next.js 15 自动按需导入这些库的子模块，替代手写 splitChunks
     optimizePackageImports: ['lucide-react', '@codemirror', 'mermaid'],
@@ -52,7 +46,7 @@ const nextConfig = {
     reactRemoveProperties: isProduction,
   },
 
-  webpack: (config, { dev, isServer }) => {
+  webpack: (config, { isServer }) => {
     // 某些 npm 包需要 Node 内置模块的浏览器 fallback
     if (!isServer) {
       config.resolve.fallback = {

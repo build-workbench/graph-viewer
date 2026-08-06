@@ -20,7 +20,6 @@ npm-debug.log*
 !.env.example
 
 # Deployment
-.netlify/
 .vercel/
 
 # TypeScript
@@ -39,6 +38,7 @@ Thumbs.db
 # Local environment
 *.local
 CLAUDE.local.md
+.claude/
 
 # Cache directories
 .npm/

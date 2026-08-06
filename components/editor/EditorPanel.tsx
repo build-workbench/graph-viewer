@@ -9,7 +9,7 @@ import {
   FORMAT_LABELS,
 } from '@/lib/diagramConfig';
 import { SAMPLES } from '@/lib/diagramSamples';
-import { useDiagramStateContext, useDiagramRenderContext } from '@/contexts/DiagramContext';
+import { useDiagramStateContext, useDiagramRenderContext } from '@/lib/diagramContext';
 import { useSettings } from '@/hooks/useSettings';
 import { CodeEditor } from './CodeEditor';
 import { PlayCircle, Loader2, Copy, AlertCircle } from 'lucide-react';

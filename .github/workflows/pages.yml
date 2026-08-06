@@ -55,12 +55,6 @@ jobs:
       - name: Build static export
         run: npm run build:static
 
-      - name: Generate sitemap
-        run: node scripts/generate-sitemap.mjs
-        env:
-          SITE_URL: ${{ steps.pages.outputs.base_url }}
-          OUTPUT_DIR: ./out
-
       - name: Setup SPA routing
         run: |
           # 确保 404.html 存在

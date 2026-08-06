@@ -10,7 +10,6 @@ dist/
 .omc/
 
 # Tool and deployment caches.
-.netlify/
 .vercel/
 .npm/
 .vitest/

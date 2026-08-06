@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { getErrorMessage, isAbortError } from '../errors';
+import { getErrorMessage, isAbortError } from './errors';
 
 describe('error utilities', () => {
   describe('getErrorMessage', () => {

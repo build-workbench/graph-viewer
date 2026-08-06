@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
-import { loadFromStorage, saveToStorage, migrateStorageKey } from '../storage';
+import { loadFromStorage, saveToStorage, migrateStorageKey } from './storage';
 
 describe('storage', () => {
   beforeEach(() => {

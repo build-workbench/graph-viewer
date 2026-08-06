@@ -7,6 +7,7 @@
 import type { AIProvider, AIConfig } from './types';
 import { loadFromStorage, saveToStorage } from '@/lib/storage';
 import { APP_CONFIG } from '@/lib/config';
+import { isStaticExport } from '@/lib/runtime';
 
 // ============================================================================
 // Constants
@@ -24,7 +25,7 @@ export const DEFAULT_AI_CONFIG: AIConfig = {
 /**
  * 静态导出模式标志
  */
-export const IS_STATIC_EXPORT = process.env.NEXT_PUBLIC_STATIC_EXPORT === 'true';
+export const IS_STATIC_EXPORT = isStaticExport;
 
 /**
  * AI 边界提示信息

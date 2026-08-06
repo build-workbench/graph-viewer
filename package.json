@@ -19,8 +19,7 @@
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
     "test:watch": "vitest",
-    "test:smoke": "node scripts/smoke-test.mjs",
-    "sitemap": "node scripts/generate-sitemap.mjs"
+    "test:smoke": "node scripts/smoke-test.mjs"
   },
   "dependencies": {
     "@codemirror/lang-javascript": "^6.2.4",
@@ -39,7 +38,6 @@
     "react-dom": "^19.0.0"
   },
   "devDependencies": {
-    "@netlify/plugin-nextjs": "^5.0.0",
     "@testing-library/jest-dom": "^6.6.3",
     "@testing-library/react": "^16.2.0",
     "@types/node": "^20.11.30",
@@ -50,7 +48,6 @@
     "eslint": "^8.57.0",
     "eslint-config-next": "^15.0.0",
     "eslint-config-prettier": "^9.1.0",
-    "globby": "^14.0.0",
     "jsdom": "^26.0.0",
     "postcss": "^8.4.38",
     "prettier": "^3.3.0",

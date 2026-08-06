@@ -24,8 +24,7 @@ import {
   LOCAL_RENDER_ENGINES,
 } from '@/lib/diagramConfig';
 import { CodePreview } from '@/components/landing/CodePreview';
-
-const isStaticExport = process.env.NEXT_PUBLIC_STATIC_EXPORT === 'true';
+import { isStaticExport } from '@/lib/runtime';
 
 // 落地页文案（单语：中文）
 const COPY = {

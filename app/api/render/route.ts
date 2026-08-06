@@ -6,10 +6,7 @@ import { APP_CONFIG } from '@/lib/config';
 import { checkRateLimit, pruneRateLimitCache } from '@/lib/server/rateLimit';
 import { renderCache, type RenderCacheEntry } from '@/lib/server/renderCache';
 import { ApiError, ErrorCode } from '@/lib/errors';
-
-// Detect static export mode / 检测静态导出模式
-const isStaticExport =
-  process.env.GITHUB_PAGES === 'true' || process.env.NEXT_PUBLIC_STATIC_EXPORT === 'true';
+import { isStaticExport } from '@/lib/runtime';
 
 export const runtime = 'nodejs';
 // API routes are removed during static export build, so always use force-dynamic

@@ -5,19 +5,19 @@
  */
 
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
-import { ExportService } from '../ExportService';
+import { ExportService } from './ExportService';
 
 // Mock DOM APIs
 const mockDownloadBlob = vi.fn();
 const mockDownloadFile = vi.fn();
 
-vi.mock('../fileDownloader', () => ({
+vi.mock('./fileDownloader', () => ({
   downloadBlob: (...args: unknown[]) => mockDownloadBlob(...args),
   downloadFile: (...args: unknown[]) => mockDownloadFile(...args),
 }));
 
 // Mock canvasRenderer
-vi.mock('../canvasRenderer', () => ({
+vi.mock('./canvasRenderer', () => ({
   svgToCanvas: vi.fn().mockResolvedValue({
     toDataURL: vi.fn().mockReturnValue('data:image/png;base64,test'),
     toBlob: vi.fn().mockImplementation((callback: (blob: Blob) => void) => {
