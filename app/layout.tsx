@@ -19,7 +19,7 @@ const siteUrl = isGitHubPages
   ? `https://vibe-knight.github.io${basePath}/`
   : process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000/';
 const iconUrl = isGitHubPages ? `${basePath}/favicon.svg` : '/favicon.svg';
-const ogImageUrl = isGitHubPages ? `${basePath}/og-image.svg` : '/og-image.svg';
+const ogImageUrl = isGitHubPages ? `${siteUrl}og-image.svg` : '/og-image.svg';
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
