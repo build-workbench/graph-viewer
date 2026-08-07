@@ -42,7 +42,7 @@ export function StaticExportNotice() {
             </div>
             <div className="mt-4 flex flex-wrap items-center gap-3">
               <Link
-                href="https://github.com/LessUp/graph-viewer#deployment"
+                href="https://github.com/vibe-knight/graph-viewer#deployment"
                 target="_blank"
                 className="inline-flex items-center gap-1.5 rounded-lg bg-gradient-to-r from-sky-600 to-indigo-600 px-4 py-2 text-sm font-semibold text-white shadow-md shadow-sky-500/20 transition-all hover:-translate-y-0.5 hover:shadow-lg hover:shadow-sky-500/30"
               >

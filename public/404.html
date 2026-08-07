@@ -1,588 +1,677 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="theme-color" content="#0f172a">
-  <meta name="description" content="Page not found - GraphViewer">
-  
-  <title>Page Not Found - GraphViewer</title>
-  
-  <link rel="icon" href="favicon.svg" type="image/svg+xml" id="dynamic-favicon">
-  
-  <style>
-    * { 
-      margin: 0; 
-      padding: 0; 
-      box-sizing: border-box; 
-    }
-    
-    :root {
-      --bg-primary: #0f172a;
-      --bg-secondary: #1e293b;
-      --text-primary: #f8fafc;
-      --text-secondary: #94a3b8;
-      --accent: #0ea5e9;
-      --accent-gradient: linear-gradient(135deg, #0ea5e9 0%, #6366f1 100%);
-    }
-    
-    body {
-      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: linear-gradient(135deg, var(--bg-primary) 0%, var(--bg-secondary) 50%, #334155 100%);
-      color: var(--text-primary);
-      overflow-x: hidden;
-    }
-    
-    /* Animated background */
-    .bg-animation {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      overflow: hidden;
-      z-index: 0;
-      pointer-events: none;
-    }
-    
-    .bg-animation::before,
-    .bg-animation::after {
-      content: '';
-      position: absolute;
-      border-radius: 50%;
-      filter: blur(80px);
-      opacity: 0.3;
-      animation: float 20s ease-in-out infinite;
-    }
-    
-    .bg-animation::before {
-      width: 600px;
-      height: 600px;
-      background: linear-gradient(135deg, #0ea5e9 0%, #3b82f6 100%);
-      top: -200px;
-      right: -100px;
-    }
-    
-    .bg-animation::after {
-      width: 500px;
-      height: 500px;
-      background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
-      bottom: -150px;
-      left: -100px;
-      animation-delay: -10s;
-    }
-    
-    @keyframes float {
-      0%, 100% { transform: translate(0, 0) scale(1); }
-      33% { transform: translate(30px, -30px) scale(1.05); }
-      66% { transform: translate(-20px, 20px) scale(0.95); }
-    }
-    
-    .container {
-      position: relative;
-      z-index: 1;
-      text-align: center;
-      padding: 2rem;
-      max-width: 600px;
-      animation: fadeInUp 0.8s ease-out;
-    }
-    
-    @keyframes fadeInUp {
-      from { opacity: 0; transform: translateY(30px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-    
-    /* Language selector */
-    .lang-selector {
-      position: absolute;
-      top: 1.5rem;
-      right: 1.5rem;
-      display: flex;
-      gap: 0.5rem;
-      z-index: 10;
-    }
-    
-    .lang-btn {
-      padding: 0.375rem 0.75rem;
-      font-size: 0.875rem;
-      color: #94a3b8;
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      border-radius: 6px;
-      cursor: pointer;
-      transition: all 0.2s;
-    }
-    
-    .lang-btn:hover {
-      background: rgba(255, 255, 255, 0.1);
-      color: #e2e8f0;
-    }
-    
-    .lang-btn.active {
-      background: var(--accent-gradient);
-      border-color: transparent;
-      color: white;
-    }
-    
-    /* Logo */
-    .logo {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 0.75rem;
-      margin-bottom: 2.5rem;
-      text-decoration: none;
-      color: inherit;
-      transition: opacity 0.2s;
-    }
-    
-    .logo:hover {
-      opacity: 0.8;
-    }
-    
-    .logo-icon {
-      width: 48px;
-      height: 48px;
-      background: var(--accent-gradient);
-      border-radius: 12px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      box-shadow: 0 10px 40px -10px rgba(14, 165, 233, 0.5);
-    }
-    
-    .logo-icon svg {
-      width: 28px;
-      height: 28px;
-      color: white;
-    }
-    
-    .logo-text {
-      font-size: 1.5rem;
-      font-weight: 700;
-      background: linear-gradient(135deg, #f8fafc 0%, #cbd5e1 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
-    
-    /* 404 Number */
-    .error-code {
-      font-size: clamp(6rem, 15vw, 10rem);
-      font-weight: 700;
-      line-height: 1;
-      margin-bottom: 0.5rem;
-      background: linear-gradient(135deg, #f8fafc 0%, #94a3b8 50%, #64748b 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      text-shadow: 0 0 80px rgba(148, 163, 184, 0.3);
-      animation: pulse 3s ease-in-out infinite;
-    }
-    
-    @keyframes pulse {
-      0%, 100% { opacity: 0.9; }
-      50% { opacity: 1; }
-    }
-    
-    .error-title {
-      font-size: 1.75rem;
-      font-weight: 600;
-      margin-bottom: 1rem;
-      color: #f1f5f9;
-    }
-    
-    .error-message {
-      font-size: 1.0625rem;
-      color: var(--text-secondary);
-      margin-bottom: 2rem;
-      line-height: 1.6;
-    }
-    
-    .current-path {
-      display: inline-block;
-      margin-top: 0.5rem;
-      padding: 0.5rem 1rem;
-      background: rgba(255, 255, 255, 0.05);
-      border-radius: 6px;
-      font-family: 'JetBrains Mono', 'Fira Code', monospace;
-      font-size: 0.8125rem;
-      color: #64748b;
-      word-break: break-all;
-    }
-    
-    /* Buttons */
-    .button-group {
-      display: flex;
-      flex-direction: column;
-      gap: 1rem;
-      align-items: center;
-      margin-bottom: 2rem;
-    }
-    
-    @media (min-width: 480px) {
-      .button-group {
-        flex-direction: row;
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#0f172a" />
+    <meta name="description" content="Page not found - GraphViewer" />
+
+    <title>Page Not Found - GraphViewer</title>
+
+    <link rel="icon" href="favicon.svg" type="image/svg+xml" id="dynamic-favicon" />
+
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      :root {
+        --bg-primary: #0f172a;
+        --bg-secondary: #1e293b;
+        --text-primary: #f8fafc;
+        --text-secondary: #94a3b8;
+        --accent: #0ea5e9;
+        --accent-gradient: linear-gradient(135deg, #0ea5e9 0%, #6366f1 100%);
+      }
+
+      body {
+        font-family:
+          'Inter',
+          -apple-system,
+          BlinkMacSystemFont,
+          'Segoe UI',
+          Roboto,
+          sans-serif;
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
         justify-content: center;
+        background: linear-gradient(
+          135deg,
+          var(--bg-primary) 0%,
+          var(--bg-secondary) 50%,
+          #334155 100%
+        );
+        color: var(--text-primary);
+        overflow-x: hidden;
       }
-    }
-    
-    .btn {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 0.5rem;
-      padding: 0.875rem 1.75rem;
-      font-size: 1rem;
-      font-weight: 600;
-      text-decoration: none;
-      border-radius: 12px;
-      transition: all 0.3s ease;
-      cursor: pointer;
-      border: none;
-      min-width: 160px;
-    }
-    
-    .btn svg {
-      width: 20px;
-      height: 20px;
-    }
-    
-    .btn-primary {
-      background: var(--accent-gradient);
-      color: white;
-      box-shadow: 0 4px 20px -4px rgba(14, 165, 233, 0.4);
-    }
-    
-    .btn-primary:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 8px 30px -4px rgba(14, 165, 233, 0.5);
-    }
-    
-    .btn-secondary {
-      background: rgba(255, 255, 255, 0.05);
-      color: #e2e8f0;
-      border: 1px solid rgba(255, 255, 255, 0.1);
-    }
-    
-    .btn-secondary:hover {
-      background: rgba(255, 255, 255, 0.1);
-      border-color: rgba(255, 255, 255, 0.2);
-    }
-    
-    /* Redirect message */
-    .redirect-message {
-      padding: 1rem 1.5rem;
-      background: rgba(14, 165, 233, 0.1);
-      border: 1px solid rgba(14, 165, 233, 0.2);
-      border-radius: 12px;
-      font-size: 0.9375rem;
-      color: #7dd3fc;
-      animation: fadeIn 0.5s ease-out;
-    }
-    
-    .redirect-message strong {
-      color: #38bdf8;
-    }
-    
-    .redirect-timer {
-      font-weight: 600;
-      color: #38bdf8;
-    }
-    
-    /* Cancel redirect button */
-    .cancel-redirect {
-      margin-top: 0.75rem;
-      padding: 0.375rem 0.875rem;
-      background: transparent;
-      border: 1px solid rgba(14, 165, 233, 0.3);
-      border-radius: 6px;
-      color: #7dd3fc;
-      font-size: 0.8125rem;
-      cursor: pointer;
-      transition: all 0.2s;
-    }
-    
-    .cancel-redirect:hover {
-      background: rgba(14, 165, 233, 0.1);
-    }
-    
-    /* Footer */
-    .footer {
-      position: fixed;
-      bottom: 1.5rem;
-      left: 50%;
-      transform: translateX(-50%);
-      font-size: 0.8125rem;
-      color: #64748b;
-      z-index: 1;
-      text-align: center;
-    }
-    
-    .footer a {
-      color: #94a3b8;
-      text-decoration: none;
-      transition: color 0.2s;
-    }
-    
-    .footer a:hover {
-      color: #e2e8f0;
-    }
-    
-    /* Responsive adjustments */
-    @media (max-width: 480px) {
-      .error-code { font-size: 5rem; }
-      .error-title { font-size: 1.375rem; }
-      .footer { font-size: 0.75rem; bottom: 1rem; }
-      .lang-selector { top: 1rem; right: 1rem; }
-      .lang-btn { padding: 0.25rem 0.5rem; font-size: 0.75rem; }
-    }
-    
-    @media (max-height: 700px) {
-      .footer { position: relative; bottom: auto; margin-top: 2rem; }
-    }
-  </style>
-  
-  <script>
-    // Translations
-    const translations = {
-      en: {
-        title: 'Page Not Found - GraphViewer',
-        errorTitle: 'Page Not Found',
-        errorMessage: "The page you're looking for doesn't exist or has been moved.",
-        backToHome: 'Back to Home',
-        openEditor: 'Open Editor',
-        loading: 'Loading GraphViewer...',
-        redirecting: 'Redirecting to',
-        cancelRedirect: 'Cancel Redirect',
-        redirectCancelled: 'Auto-redirect cancelled. Use the buttons above to navigate.',
-        footer: 'Open Source Diagram Tool'
-      },
-      zh: {
-        title: '页面未找到 - GraphViewer',
-        errorTitle: '页面未找到',
-        errorMessage: '您访问的页面不存在或已被移动。',
-        backToHome: '返回首页',
-        openEditor: '打开编辑器',
-        loading: '正在加载 GraphViewer...',
-        redirecting: '正在跳转至',
-        cancelRedirect: '取消跳转',
-        redirectCancelled: '自动跳转已取消。请使用上方按钮导航。',
-        footer: '开源图表工具'
+
+      /* Animated background */
+      .bg-animation {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        z-index: 0;
+        pointer-events: none;
       }
-    };
-    
-    // Smart base path detection and routing
-    (function() {
-      const location = window.location;
-      const hostname = location.hostname;
-      const pathname = location.pathname;
-      
-      // Detect language preference
-      const userLang = navigator.language || navigator.userLanguage || 'en';
-      const isChinese = userLang.toLowerCase().startsWith('zh');
-      let currentLang = isChinese ? 'zh' : 'en';
-      
-      // Check for saved language preference
-      const savedLang = localStorage.getItem('graphviewer-404-lang');
-      if (savedLang && translations[savedLang]) {
-        currentLang = savedLang;
+
+      .bg-animation::before,
+      .bg-animation::after {
+        content: '';
+        position: absolute;
+        border-radius: 50%;
+        filter: blur(80px);
+        opacity: 0.3;
+        animation: float 20s ease-in-out infinite;
       }
-      
-      // Apply translations
-      function applyLanguage(lang) {
-        const t = translations[lang];
-        document.title = t.title;
-        document.querySelector('.error-title').textContent = t.errorTitle;
-        document.querySelector('.error-message').innerHTML = t.errorMessage + '<br><span class="current-path" id="current-path">/</span>';
-        document.getElementById('btn-home-text').textContent = t.backToHome;
-        document.getElementById('btn-editor-text').textContent = t.openEditor;
-        document.querySelector('.loading-text').textContent = t.loading;
-        document.getElementById('cancel-redirect').textContent = t.cancelRedirect;
-        document.getElementById('footer-text').textContent = t.footer;
-        
-        // Update active language button
-        document.querySelectorAll('.lang-btn').forEach(btn => {
-          btn.classList.toggle('active', btn.dataset.lang === lang);
-        });
-        
-        // Update current path
-        const pathDisplay = document.getElementById('current-path');
-        if (pathDisplay) {
-          pathDisplay.textContent = pathname;
+
+      .bg-animation::before {
+        width: 600px;
+        height: 600px;
+        background: linear-gradient(135deg, #0ea5e9 0%, #3b82f6 100%);
+        top: -200px;
+        right: -100px;
+      }
+
+      .bg-animation::after {
+        width: 500px;
+        height: 500px;
+        background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+        bottom: -150px;
+        left: -100px;
+        animation-delay: -10s;
+      }
+
+      @keyframes float {
+        0%,
+        100% {
+          transform: translate(0, 0) scale(1);
         }
-        
-        // Save preference
-        localStorage.setItem('graphviewer-404-lang', lang);
-        currentLang = lang;
-      }
-      
-      // Expose to global for onclick handlers
-      window.setLanguage = applyLanguage;
-      
-      // Detect GitHub Pages environment
-      const isGitHubPages = hostname.endsWith('github.io');
-      
-      // Calculate base path from URL structure
-      // NOTE: This logic assumes:
-      // - GitHub Pages: hostname ends with .github.io, basePath is the repo name (first path segment)
-      // - Custom domain: basePath is empty (served at root)
-      // - Custom domain with subpath: basePath detection may be incorrect; consider injecting build-time config
-      let basePath = '';
-      if (isGitHubPages) {
-        const pathParts = pathname.split('/').filter(Boolean);
-        if (pathParts.length > 0) {
-          basePath = '/' + pathParts[0];
+        33% {
+          transform: translate(30px, -30px) scale(1.05);
+        }
+        66% {
+          transform: translate(-20px, 20px) scale(0.95);
         }
       }
-      
-      // Update favicon
-      const favicon = document.getElementById('dynamic-favicon');
-      if (favicon) {
-        favicon.href = basePath + '/favicon.svg';
+
+      .container {
+        position: relative;
+        z-index: 1;
+        text-align: center;
+        padding: 2rem;
+        max-width: 600px;
+        animation: fadeInUp 0.8s ease-out;
       }
-      
-      // Update all links with correct basePath
-      const homeLink = document.getElementById('home-link');
-      const btnHome = document.getElementById('btn-home');
-      const btnEditor = document.getElementById('btn-editor');
-      const footerHomeLink = document.getElementById('footer-home-link');
-      
-      if (homeLink) homeLink.href = basePath + '/';
-      if (btnHome) btnHome.href = basePath + '/';
-      if (btnEditor) btnEditor.href = basePath + '/editor/';
-      if (footerHomeLink) footerHomeLink.href = basePath + '/';
-      
-      // Determine if this is truly a 404 or a client-side route
-      const isClientRoute = pathname.includes('/editor') || 
-                           pathname.includes('/diagram') ||
-                           (basePath && pathname.startsWith(basePath + '/') && pathname !== basePath + '/');
-      
-      // Apply initial language
-      document.addEventListener('DOMContentLoaded', () => {
-        applyLanguage(currentLang);
-      });
-      
-      // If it's likely a client-side route, redirect to app with route preserved
-      if (isClientRoute) {
-        const redirectTarget = basePath + '/?redirect=' + encodeURIComponent(pathname.replace(basePath, ''));
-        startAutoRedirect(redirectTarget, 5);
-      } else if (isGitHubPages && pathname === '/') {
-        // At root without basePath - redirect to basePath
-        const redirectTarget = basePath + '/' || '/graph-viewer/';
-        startAutoRedirect(redirectTarget, 3);
-      }
-      
-      function startAutoRedirect(targetUrl, seconds) {
-        const redirectMsg = document.getElementById('redirect-msg');
-        const timerSpan = document.getElementById('redirect-timer');
-        const cancelBtn = document.getElementById('cancel-redirect');
-        const t = translations[currentLang];
-        let timeLeft = seconds;
-        let timerId = null;
-        let redirectCancelled = false;
-        
-        if (redirectMsg) {
-          redirectMsg.innerHTML = t.redirecting + ' <strong>' + targetUrl + '</strong> in <span class="redirect-timer" id="redirect-timer">' + timeLeft + '</span> seconds...';
-          redirectMsg.classList.add('visible');
+
+      @keyframes fadeInUp {
+        from {
+          opacity: 0;
+          transform: translateY(30px);
         }
-        
-        if (cancelBtn) {
-          cancelBtn.style.display = 'inline-block';
-          cancelBtn.addEventListener('click', function() {
-            redirectCancelled = true;
-            if (timerId) clearTimeout(timerId);
-            cancelBtn.style.display = 'none';
-            if (redirectMsg) {
-              redirectMsg.innerHTML = t.redirectCancelled;
-            }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      /* Language selector */
+      .lang-selector {
+        position: absolute;
+        top: 1.5rem;
+        right: 1.5rem;
+        display: flex;
+        gap: 0.5rem;
+        z-index: 10;
+      }
+
+      .lang-btn {
+        padding: 0.375rem 0.75rem;
+        font-size: 0.875rem;
+        color: #94a3b8;
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 6px;
+        cursor: pointer;
+        transition: all 0.2s;
+      }
+
+      .lang-btn:hover {
+        background: rgba(255, 255, 255, 0.1);
+        color: #e2e8f0;
+      }
+
+      .lang-btn.active {
+        background: var(--accent-gradient);
+        border-color: transparent;
+        color: white;
+      }
+
+      /* Logo */
+      .logo {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.75rem;
+        margin-bottom: 2.5rem;
+        text-decoration: none;
+        color: inherit;
+        transition: opacity 0.2s;
+      }
+
+      .logo:hover {
+        opacity: 0.8;
+      }
+
+      .logo-icon {
+        width: 48px;
+        height: 48px;
+        background: var(--accent-gradient);
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 10px 40px -10px rgba(14, 165, 233, 0.5);
+      }
+
+      .logo-icon svg {
+        width: 28px;
+        height: 28px;
+        color: white;
+      }
+
+      .logo-text {
+        font-size: 1.5rem;
+        font-weight: 700;
+        background: linear-gradient(135deg, #f8fafc 0%, #cbd5e1 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+
+      /* 404 Number */
+      .error-code {
+        font-size: clamp(6rem, 15vw, 10rem);
+        font-weight: 700;
+        line-height: 1;
+        margin-bottom: 0.5rem;
+        background: linear-gradient(135deg, #f8fafc 0%, #94a3b8 50%, #64748b 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        text-shadow: 0 0 80px rgba(148, 163, 184, 0.3);
+        animation: pulse 3s ease-in-out infinite;
+      }
+
+      @keyframes pulse {
+        0%,
+        100% {
+          opacity: 0.9;
+        }
+        50% {
+          opacity: 1;
+        }
+      }
+
+      .error-title {
+        font-size: 1.75rem;
+        font-weight: 600;
+        margin-bottom: 1rem;
+        color: #f1f5f9;
+      }
+
+      .error-message {
+        font-size: 1.0625rem;
+        color: var(--text-secondary);
+        margin-bottom: 2rem;
+        line-height: 1.6;
+      }
+
+      .current-path {
+        display: inline-block;
+        margin-top: 0.5rem;
+        padding: 0.5rem 1rem;
+        background: rgba(255, 255, 255, 0.05);
+        border-radius: 6px;
+        font-family: 'JetBrains Mono', 'Fira Code', monospace;
+        font-size: 0.8125rem;
+        color: #64748b;
+        word-break: break-all;
+      }
+
+      /* Buttons */
+      .button-group {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+        align-items: center;
+        margin-bottom: 2rem;
+      }
+
+      @media (min-width: 480px) {
+        .button-group {
+          flex-direction: row;
+          justify-content: center;
+        }
+      }
+
+      .btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+        padding: 0.875rem 1.75rem;
+        font-size: 1rem;
+        font-weight: 600;
+        text-decoration: none;
+        border-radius: 12px;
+        transition: all 0.3s ease;
+        cursor: pointer;
+        border: none;
+        min-width: 160px;
+      }
+
+      .btn svg {
+        width: 20px;
+        height: 20px;
+      }
+
+      .btn-primary {
+        background: var(--accent-gradient);
+        color: white;
+        box-shadow: 0 4px 20px -4px rgba(14, 165, 233, 0.4);
+      }
+
+      .btn-primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 30px -4px rgba(14, 165, 233, 0.5);
+      }
+
+      .btn-secondary {
+        background: rgba(255, 255, 255, 0.05);
+        color: #e2e8f0;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+      }
+
+      .btn-secondary:hover {
+        background: rgba(255, 255, 255, 0.1);
+        border-color: rgba(255, 255, 255, 0.2);
+      }
+
+      /* Redirect message */
+      .redirect-message {
+        padding: 1rem 1.5rem;
+        background: rgba(14, 165, 233, 0.1);
+        border: 1px solid rgba(14, 165, 233, 0.2);
+        border-radius: 12px;
+        font-size: 0.9375rem;
+        color: #7dd3fc;
+        animation: fadeIn 0.5s ease-out;
+      }
+
+      .redirect-message strong {
+        color: #38bdf8;
+      }
+
+      .redirect-timer {
+        font-weight: 600;
+        color: #38bdf8;
+      }
+
+      /* Cancel redirect button */
+      .cancel-redirect {
+        margin-top: 0.75rem;
+        padding: 0.375rem 0.875rem;
+        background: transparent;
+        border: 1px solid rgba(14, 165, 233, 0.3);
+        border-radius: 6px;
+        color: #7dd3fc;
+        font-size: 0.8125rem;
+        cursor: pointer;
+        transition: all 0.2s;
+      }
+
+      .cancel-redirect:hover {
+        background: rgba(14, 165, 233, 0.1);
+      }
+
+      /* Footer */
+      .footer {
+        position: fixed;
+        bottom: 1.5rem;
+        left: 50%;
+        transform: translateX(-50%);
+        font-size: 0.8125rem;
+        color: #64748b;
+        z-index: 1;
+        text-align: center;
+      }
+
+      .footer a {
+        color: #94a3b8;
+        text-decoration: none;
+        transition: color 0.2s;
+      }
+
+      .footer a:hover {
+        color: #e2e8f0;
+      }
+
+      /* Responsive adjustments */
+      @media (max-width: 480px) {
+        .error-code {
+          font-size: 5rem;
+        }
+        .error-title {
+          font-size: 1.375rem;
+        }
+        .footer {
+          font-size: 0.75rem;
+          bottom: 1rem;
+        }
+        .lang-selector {
+          top: 1rem;
+          right: 1rem;
+        }
+        .lang-btn {
+          padding: 0.25rem 0.5rem;
+          font-size: 0.75rem;
+        }
+      }
+
+      @media (max-height: 700px) {
+        .footer {
+          position: relative;
+          bottom: auto;
+          margin-top: 2rem;
+        }
+      }
+    </style>
+
+    <script>
+      // Translations
+      const translations = {
+        en: {
+          title: 'Page Not Found - GraphViewer',
+          errorTitle: 'Page Not Found',
+          errorMessage: "The page you're looking for doesn't exist or has been moved.",
+          backToHome: 'Back to Home',
+          openEditor: 'Open Editor',
+          loading: 'Loading GraphViewer...',
+          redirecting: 'Redirecting to',
+          cancelRedirect: 'Cancel Redirect',
+          redirectCancelled: 'Auto-redirect cancelled. Use the buttons above to navigate.',
+          footer: 'Open Source Diagram Tool',
+        },
+        zh: {
+          title: '页面未找到 - GraphViewer',
+          errorTitle: '页面未找到',
+          errorMessage: '您访问的页面不存在或已被移动。',
+          backToHome: '返回首页',
+          openEditor: '打开编辑器',
+          loading: '正在加载 GraphViewer...',
+          redirecting: '正在跳转至',
+          cancelRedirect: '取消跳转',
+          redirectCancelled: '自动跳转已取消。请使用上方按钮导航。',
+          footer: '开源图表工具',
+        },
+      };
+
+      // Smart base path detection and routing
+      (function () {
+        const location = window.location;
+        const hostname = location.hostname;
+        const pathname = location.pathname;
+
+        // Detect language preference
+        const userLang = navigator.language || navigator.userLanguage || 'en';
+        const isChinese = userLang.toLowerCase().startsWith('zh');
+        let currentLang = isChinese ? 'zh' : 'en';
+
+        // Check for saved language preference
+        const savedLang = localStorage.getItem('graphviewer-404-lang');
+        if (savedLang && translations[savedLang]) {
+          currentLang = savedLang;
+        }
+
+        // Apply translations
+        function applyLanguage(lang) {
+          const t = translations[lang];
+          document.title = t.title;
+          document.querySelector('.error-title').textContent = t.errorTitle;
+          document.querySelector('.error-message').innerHTML =
+            t.errorMessage + '<br><span class="current-path" id="current-path">/</span>';
+          document.getElementById('btn-home-text').textContent = t.backToHome;
+          document.getElementById('btn-editor-text').textContent = t.openEditor;
+          document.querySelector('.loading-text').textContent = t.loading;
+          document.getElementById('cancel-redirect').textContent = t.cancelRedirect;
+          document.getElementById('footer-text').textContent = t.footer;
+
+          // Update active language button
+          document.querySelectorAll('.lang-btn').forEach((btn) => {
+            btn.classList.toggle('active', btn.dataset.lang === lang);
           });
+
+          // Update current path
+          const pathDisplay = document.getElementById('current-path');
+          if (pathDisplay) {
+            pathDisplay.textContent = pathname;
+          }
+
+          // Save preference
+          localStorage.setItem('graphviewer-404-lang', lang);
+          currentLang = lang;
         }
-        
-        function tick() {
-          if (redirectCancelled) return;
-          
-          timeLeft--;
-          const timer = document.getElementById('redirect-timer');
-          if (timer) timer.textContent = timeLeft;
-          
-          if (timeLeft <= 0) {
-            location.replace(targetUrl);
-          } else {
-            timerId = setTimeout(tick, 1000);
+
+        // Expose to global for onclick handlers
+        window.setLanguage = applyLanguage;
+
+        // Detect GitHub Pages environment
+        const isGitHubPages = hostname.endsWith('github.io');
+
+        // Calculate base path from URL structure
+        // NOTE: This logic assumes:
+        // - GitHub Pages: hostname ends with .github.io, basePath is the repo name (first path segment)
+        // - Custom domain: basePath is empty (served at root)
+        // - Custom domain with subpath: basePath detection may be incorrect; consider injecting build-time config
+        let basePath = '';
+        if (isGitHubPages) {
+          const pathParts = pathname.split('/').filter(Boolean);
+          if (pathParts.length > 0) {
+            basePath = '/' + pathParts[0];
           }
         }
-        
-        timerId = setTimeout(tick, 1000);
-      }
-      
-      // Debug info
-      console.log('[GraphViewer 404] BasePath detected:', basePath || '/');
-      console.log('[GraphViewer 404] Is GitHub Pages:', isGitHubPages);
-      console.log('[GraphViewer 404] Current path:', pathname);
-      console.log('[GraphViewer 404] Language:', currentLang);
-    })();
-  </script>
-</head>
-<body>
-  <div class="bg-animation"></div>
-  
-  <!-- Language Selector -->
-  <div class="lang-selector">
-    <button class="lang-btn" data-lang="en" onclick="setLanguage('en')">EN</button>
-    <button class="lang-btn" data-lang="zh" onclick="setLanguage('zh')">中文</button>
-  </div>
-  
-  <div class="container">
-    <!-- Logo -->
-    <a href="/" class="logo" id="home-link">
-      <div class="logo-icon">
-        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09zM18.259 8.715L18 9.75l-.259-1.035a3.375 3.375 0 00-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 002.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 002.456 2.456L21.75 6l-1.035.259a3.375 3.375 0 00-2.456 2.456zM16.894 20.567L16.5 21.75l-.394-1.183a2.25 2.25 0 00-1.423-1.423L13.5 18.75l1.183-.394a2.25 2.25 0 001.423-1.423l.394-1.183.394 1.183a2.25 2.25 0 001.423 1.423l1.183.394-1.183.394a2.25 2.25 0 00-1.423 1.423z" />
-        </svg>
-      </div>
-      <span class="logo-text">GraphViewer</span>
-    </a>
-    
-    <!-- 404 Content -->
-    <div class="error-code">404</div>
-    <h1 class="error-title">Page Not Found</h1>
-    <p class="error-message">
-      The page you're looking for doesn't exist or has been moved.
-      <br>
-      <span class="current-path" id="current-path">/</span>
-    </p>
-    
-    <!-- Buttons -->
-    <div class="button-group">
-      <a href="/" class="btn btn-primary" id="btn-home">
-        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 12l8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25" />
-        </svg>
-        <span id="btn-home-text">Back to Home</span>
-      </a>
-      <a href="/editor/" class="btn btn-secondary" id="btn-editor">
-        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M17.25 6.75L22.5 12l-5.25 5.25m-10.5 0L1.5 12l5.25-5.25m7.5-3l-4.5 16.5" />
-        </svg>
-        <span id="btn-editor-text">Open Editor</span>
-      </a>
+
+        // Update favicon
+        const favicon = document.getElementById('dynamic-favicon');
+        if (favicon) {
+          favicon.href = basePath + '/favicon.svg';
+        }
+
+        // Update all links with correct basePath
+        const homeLink = document.getElementById('home-link');
+        const btnHome = document.getElementById('btn-home');
+        const btnEditor = document.getElementById('btn-editor');
+        const footerHomeLink = document.getElementById('footer-home-link');
+
+        if (homeLink) homeLink.href = basePath + '/';
+        if (btnHome) btnHome.href = basePath + '/';
+        if (btnEditor) btnEditor.href = basePath + '/editor/';
+        if (footerHomeLink) footerHomeLink.href = basePath + '/';
+
+        // Determine if this is truly a 404 or a client-side route
+        const isClientRoute =
+          pathname.includes('/editor') ||
+          pathname.includes('/diagram') ||
+          (basePath && pathname.startsWith(basePath + '/') && pathname !== basePath + '/');
+
+        // Apply initial language
+        document.addEventListener('DOMContentLoaded', () => {
+          applyLanguage(currentLang);
+        });
+
+        // If it's likely a client-side route, redirect to app with route preserved
+        if (isClientRoute) {
+          const redirectTarget =
+            basePath + '/?redirect=' + encodeURIComponent(pathname.replace(basePath, ''));
+          startAutoRedirect(redirectTarget, 5);
+        } else if (isGitHubPages && pathname === '/') {
+          // At root without basePath - redirect to basePath
+          const redirectTarget = basePath + '/' || '/graph-viewer/';
+          startAutoRedirect(redirectTarget, 3);
+        }
+
+        function startAutoRedirect(targetUrl, seconds) {
+          const redirectMsg = document.getElementById('redirect-msg');
+          const timerSpan = document.getElementById('redirect-timer');
+          const cancelBtn = document.getElementById('cancel-redirect');
+          const t = translations[currentLang];
+          let timeLeft = seconds;
+          let timerId = null;
+          let redirectCancelled = false;
+
+          if (redirectMsg) {
+            redirectMsg.innerHTML =
+              t.redirecting +
+              ' <strong>' +
+              targetUrl +
+              '</strong> in <span class="redirect-timer" id="redirect-timer">' +
+              timeLeft +
+              '</span> seconds...';
+            redirectMsg.classList.add('visible');
+          }
+
+          if (cancelBtn) {
+            cancelBtn.style.display = 'inline-block';
+            cancelBtn.addEventListener('click', function () {
+              redirectCancelled = true;
+              if (timerId) clearTimeout(timerId);
+              cancelBtn.style.display = 'none';
+              if (redirectMsg) {
+                redirectMsg.innerHTML = t.redirectCancelled;
+              }
+            });
+          }
+
+          function tick() {
+            if (redirectCancelled) return;
+
+            timeLeft--;
+            const timer = document.getElementById('redirect-timer');
+            if (timer) timer.textContent = timeLeft;
+
+            if (timeLeft <= 0) {
+              location.replace(targetUrl);
+            } else {
+              timerId = setTimeout(tick, 1000);
+            }
+          }
+
+          timerId = setTimeout(tick, 1000);
+        }
+
+        // Debug info
+        console.log('[GraphViewer 404] BasePath detected:', basePath || '/');
+        console.log('[GraphViewer 404] Is GitHub Pages:', isGitHubPages);
+        console.log('[GraphViewer 404] Current path:', pathname);
+        console.log('[GraphViewer 404] Language:', currentLang);
+      })();
+    </script>
+  </head>
+  <body>
+    <div class="bg-animation"></div>
+
+    <!-- Language Selector -->
+    <div class="lang-selector">
+      <button class="lang-btn" data-lang="en" onclick="setLanguage('en')">EN</button>
+      <button class="lang-btn" data-lang="zh" onclick="setLanguage('zh')">中文</button>
     </div>
-    
-    <!-- Auto redirect message -->
-    <div class="redirect-message" id="redirect-msg" style="display: none;"></div>
-    <button class="cancel-redirect" id="cancel-redirect" style="display: none;">Cancel Redirect</button>
-  </div>
-  
-  <!-- Footer -->
-  <div class="footer">
-    <a href="https://github.com/LessUp/graph-viewer" target="_blank" rel="noopener">GitHub</a> • 
-    <a href="/" id="footer-home-link">GraphViewer</a> •
-    <span id="footer-text">Open Source Diagram Tool</span>
-  </div>
-</body>
+
+    <div class="container">
+      <!-- Logo -->
+      <a href="/" class="logo" id="home-link">
+        <div class="logo-icon">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            stroke-width="2"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09zM18.259 8.715L18 9.75l-.259-1.035a3.375 3.375 0 00-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 002.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 002.456 2.456L21.75 6l-1.035.259a3.375 3.375 0 00-2.456 2.456zM16.894 20.567L16.5 21.75l-.394-1.183a2.25 2.25 0 00-1.423-1.423L13.5 18.75l1.183-.394a2.25 2.25 0 001.423-1.423l.394-1.183.394 1.183a2.25 2.25 0 001.423 1.423l1.183.394-1.183.394a2.25 2.25 0 00-1.423 1.423z"
+            />
+          </svg>
+        </div>
+        <span class="logo-text">GraphViewer</span>
+      </a>
+
+      <!-- 404 Content -->
+      <div class="error-code">404</div>
+      <h1 class="error-title">Page Not Found</h1>
+      <p class="error-message">
+        The page you're looking for doesn't exist or has been moved.
+        <br />
+        <span class="current-path" id="current-path">/</span>
+      </p>
+
+      <!-- Buttons -->
+      <div class="button-group">
+        <a href="/" class="btn btn-primary" id="btn-home">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            stroke-width="2"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M2.25 12l8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25"
+            />
+          </svg>
+          <span id="btn-home-text">Back to Home</span>
+        </a>
+        <a href="/editor/" class="btn btn-secondary" id="btn-editor">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            stroke-width="2"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M17.25 6.75L22.5 12l-5.25 5.25m-10.5 0L1.5 12l5.25-5.25m7.5-3l-4.5 16.5"
+            />
+          </svg>
+          <span id="btn-editor-text">Open Editor</span>
+        </a>
+      </div>
+
+      <!-- Auto redirect message -->
+      <div class="redirect-message" id="redirect-msg" style="display: none"></div>
+      <button class="cancel-redirect" id="cancel-redirect" style="display: none">
+        Cancel Redirect
+      </button>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+      <a href="https://github.com/vibe-knight/graph-viewer" target="_blank" rel="noopener"
+        >GitHub</a
+      >
+      • <a href="/" id="footer-home-link">GraphViewer</a> •
+      <span id="footer-text">Open Source Diagram Tool</span>
+    </div>
+  </body>
 </html>

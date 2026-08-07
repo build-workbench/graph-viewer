@@ -10,13 +10,13 @@
 
 <p align="center">
   <img src="https://img.shields.io/badge/version-1.0.0-blue.svg" alt="Version">
-  <a href="https://github.com/LessUp/graph-viewer/blob/master/LICENSE">
+  <a href="https://github.com/vibe-knight/graph-viewer/blob/master/LICENSE">
     <img src="https://img.shields.io/badge/License-MIT-green.svg" alt="License">
   </a>
-  <a href="https://github.com/LessUp/graph-viewer/actions/workflows/ci.yml">
+  <a href="https://github.com/vibe-knight/graph-viewer/actions/workflows/ci.yml">
     <img src="https://img.shields.io/badge/CI-passing-brightgreen.svg" alt="CI">
   </a>
-  <a href="https://github.com/LessUp/graph-viewer/actions/workflows/pages.yml">
+  <a href="https://github.com/vibe-knight/graph-viewer/actions/workflows/pages.yml">
     <img src="https://img.shields.io/badge/Pages-Deploy-success.svg" alt="Pages Deploy">
   </a>
   <img src="https://img.shields.io/badge/Next.js-15-black.svg" alt="Next.js">
@@ -24,7 +24,7 @@
 </p>
 
 <p align="center">
-  <a href="https://lessup.github.io/graph-viewer/"><strong>🚀 在线演示</strong></a>
+  <a href="https://vibe-knight.github.io/graph-viewer/"><strong>🚀 在线演示</strong></a>
 </p>
 
 ---
@@ -74,7 +74,7 @@
 ### 安装
 
 ```bash
-git clone https://github.com/LessUp/graph-viewer.git
+git clone https://github.com/vibe-knight/graph-viewer.git
 cd graph-viewer
 npm install
 npm run dev

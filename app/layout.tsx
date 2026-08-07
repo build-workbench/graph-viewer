@@ -16,7 +16,7 @@ function getBasePath() {
 
 const basePath = getBasePath();
 const siteUrl = isGitHubPages
-  ? `https://lessup.github.io${basePath}/`
+  ? `https://vibe-knight.github.io${basePath}/`
   : process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000/';
 const iconUrl = isGitHubPages ? `${basePath}/favicon.svg` : '/favicon.svg';
 const ogImageUrl = isGitHubPages ? `${basePath}/og-image.svg` : '/og-image.svg';
