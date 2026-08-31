@@ -1,0 +1,54 @@
+{
+  "schema_version": 1,
+  "diagram_type": "architecture",
+  "meta": {
+    "title": "GraphViewer 架构",
+    "locale": "zh-CN",
+    "quality_profile": "showcase",
+    "viewBox": [1220, 520],
+    "views": [
+      {
+        "id": "render-path",
+        "label": "渲染主路径",
+        "focus": ["user", "editor", "split", "wasm", "api", "kroki", "output"],
+        "note": "从代码输入到 SVG / PNG / PDF 输出的两条渲染路径。"
+      },
+      {
+        "id": "remote-path",
+        "label": "远程渲染",
+        "focus": ["split", "api", "kroki"],
+        "note": "非本地引擎经 /api/render 代理到 Kroki，仅在完整服务模式下可用。"
+      },
+      {
+        "id": "local-and-state",
+        "label": "本地渲染与状态",
+        "focus": ["editor", "state", "wasm", "split"],
+        "note": "本地 WASM 引擎离线渲染，工作区状态由 Context 与 LocalStorage 承载。"
+      }
+    ]
+  },
+  "components": [
+    { "id": "user", "type": "external", "label": "用户", "sublabel": "浏览器", "pos": [40, 140], "size": [130, 64] },
+    { "id": "editor", "type": "frontend", "label": "编辑器", "sublabel": "CodeMirror", "pos": [250, 140], "size": [150, 64] },
+    { "id": "split", "type": "backend", "label": "渲染分流", "sublabel": "lib/render.ts", "pos": [480, 140], "size": [180, 64] },
+    { "id": "output", "type": "frontend", "label": "预览与导出", "sublabel": "SVG / PNG / PDF", "pos": [740, 140], "size": [150, 64] },
+    { "id": "state", "type": "frontend", "label": "状态与工作区", "sublabel": "Context · LocalStorage", "pos": [250, 370], "size": [150, 64] },
+    { "id": "wasm", "type": "cloud", "label": "本地 WASM", "sublabel": "Mermaid · Flowchart · Graphviz", "pos": [480, 370], "size": [180, 64], "tag": "离线 · 0ms" },
+    { "id": "api", "type": "backend", "label": "/api/render", "sublabel": "Kroki 代理 · 缓存 / 限流", "pos": [740, 370], "size": [180, 64] },
+    { "id": "kroki", "type": "external", "label": "Kroki", "sublabel": "远程渲染服务", "pos": [1000, 370], "size": [150, 64] }
+  ],
+  "connections": [
+    { "id": "user-to-editor", "from": "user", "to": "editor", "variant": "emphasis" },
+    { "id": "editor-to-split", "from": "editor", "to": "split", "variant": "emphasis" },
+    { "id": "split-to-output", "from": "split", "to": "output", "label": "渲染结果", "variant": "emphasis" },
+    { "id": "editor-to-state", "from": "editor", "to": "state", "variant": "dashed", "label": "读写工作区", "labelAt": [325, 260] },
+    { "id": "split-to-wasm", "from": "split", "to": "wasm", "label": "本地 WASM", "variant": "emphasis", "labelAt": [570, 260] },
+    { "id": "split-to-api", "from": "split", "to": "api", "label": "远程代理", "variant": "dashed" },
+    { "id": "api-to-kroki", "from": "api", "to": "kroki", "label": "POST", "variant": "dashed", "labelAt": [960, 364] }
+  ],
+  "cards": [
+    { "dot": "cyan", "title": "两条渲染路径", "items": ["本地 WASM 渲染 3 引擎，离线可用、零延迟", "其余 13 引擎经 /api/render 代理到 Kroki"] },
+    { "dot": "emerald", "title": "两种部署模式", "items": ["静态导出：移除 API 路由，仅保留本地引擎", "Docker 完整服务：Node 服务端 + 缓存 / 限流"] },
+    { "dot": "amber", "title": "隐私与分享", "items": ["代码与导出不离开浏览器", "分享链接仅 LZ 压缩 URL，数据存于 LocalStorage"] }
+  ]
+}
