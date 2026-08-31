@@ -16,7 +16,7 @@ function getBasePath() {
 
 const basePath = getBasePath();
 const siteUrl = isGitHubPages
-  ? `https://vibe-knight.github.io${basePath}/`
+  ? `https://build-workbench.github.io${basePath}/`
   : process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000/';
 const iconUrl = isGitHubPages ? `${basePath}/favicon.svg` : '/favicon.svg';
 const ogImageUrl = isGitHubPages ? `${siteUrl}og-image.svg` : '/og-image.svg';
@@ -28,7 +28,7 @@ export const metadata: Metadata = {
     template: '%s | GraphViewer',
   },
   description:
-    '开箱即用的图表可视化工具，支持 Mermaid、PlantUML、Graphviz、D2 等 16+ 种图表引擎。本地渲染保护隐私，远程渲染支持更多格式。',
+    '开箱即用的图表可视化工具，支持 Mermaid、PlantUML、Graphviz、D2 等 16 种图表引擎。本地渲染保护隐私，远程渲染支持更多格式。',
   keywords: [
     '图表工具',
     'diagram',
@@ -53,7 +53,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'GraphViewer - 现代图表可视化工具',
     description:
-      '支持 16+ 种图表引擎的一体化图表可视化工具。本地渲染 + 远程渲染混合架构，兼顾性能与功能。',
+      '支持 16 种图表引擎的一体化图表可视化工具。本地渲染 + 远程渲染混合架构，兼顾性能与功能。',
     url: siteUrl,
     siteName: 'GraphViewer',
     type: 'website',
@@ -71,7 +71,7 @@ export const metadata: Metadata = {
   twitter: {
     card: 'summary_large_image',
     title: 'GraphViewer - 现代图表可视化工具',
-    description: '支持 16+ 种图表引擎的一体化图表可视化工具',
+    description: '支持 16 种图表引擎的一体化图表可视化工具',
     images: [ogImageUrl],
     creator: '@graphviewer',
   },

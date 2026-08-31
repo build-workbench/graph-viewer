@@ -85,7 +85,7 @@ export function AppHeader({
             <Settings className="h-4 w-4" />
           </button>
           <a
-            href="https://github.com/vibe-knight/graph-viewer"
+            href="https://github.com/build-workbench/graph-viewer"
             target="_blank"
             rel="noopener noreferrer"
             className="flex items-center justify-center rounded-xl bg-white p-2 text-slate-500 ring-1 ring-slate-200 transition hover:bg-slate-50 hover:text-slate-700"

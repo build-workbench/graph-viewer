@@ -5,18 +5,18 @@
 </p>
 
 <p align="center">
-  <em>支持 16+ 图表引擎，混合本地/远程渲染</em>
+  <em>支持 16 个图表引擎，混合本地/远程渲染</em>
 </p>
 
 <p align="center">
   <img src="https://img.shields.io/badge/version-1.0.0-blue.svg" alt="Version">
-  <a href="https://github.com/vibe-knight/graph-viewer/blob/master/LICENSE">
+  <a href="https://github.com/build-workbench/graph-viewer/blob/master/LICENSE">
     <img src="https://img.shields.io/badge/License-MIT-green.svg" alt="License">
   </a>
-  <a href="https://github.com/vibe-knight/graph-viewer/actions/workflows/ci.yml">
+  <a href="https://github.com/build-workbench/graph-viewer/actions/workflows/ci.yml">
     <img src="https://img.shields.io/badge/CI-passing-brightgreen.svg" alt="CI">
   </a>
-  <a href="https://github.com/vibe-knight/graph-viewer/actions/workflows/pages.yml">
+  <a href="https://github.com/build-workbench/graph-viewer/actions/workflows/pages.yml">
     <img src="https://img.shields.io/badge/Pages-Deploy-success.svg" alt="Pages Deploy">
   </a>
   <img src="https://img.shields.io/badge/Next.js-15-black.svg" alt="Next.js">
@@ -24,7 +24,7 @@
 </p>
 
 <p align="center">
-  <a href="https://vibe-knight.github.io/graph-viewer/"><strong>🚀 在线演示</strong></a>
+  <a href="https://build-workbench.github.io/graph-viewer/"><strong>🚀 在线演示</strong></a>
 </p>
 
 ---
@@ -41,6 +41,7 @@
 - [安全性](#安全性)
 - [项目状态](#项目状态)
 - [许可证](#许可证)
+- [致谢](#致谢)
 
 ---
 
@@ -48,15 +49,15 @@
 
 | 特性         | GraphViewer             | 传统工具         |
 | ------------ | ----------------------- | ---------------- |
-| **渲染速度** | ⚡ 本地 WASM (0ms 延迟) | ☁️ 始终远程渲染  |
+| **渲染速度** | ⚡ 本地 WASM（即时渲染） | ☁️ 始终远程渲染  |
 | **隐私安全** | 🔒 代码不会离开浏览器   | ⚠️ 发送至服务器  |
-| **引擎支持** | 16+ 引擎，统一界面      | 通常仅 3-5 个    |
+| **引擎支持** | 16 个引擎，统一界面     | 通常仅 3-5 个    |
 | **分享大小** | ~100 字节 (LZ 压缩 URL) | 大文件或外部链接 |
 | **离线支持** | ✅ 本地引擎完全离线     | ❌ 需要网络连接  |
 
 ## ✨ 核心特性
 
-- **🚀 16+ 图表引擎**: Mermaid, PlantUML, Graphviz, D2, Vega, Vega-Lite 等
+- **🚀 16 个图表引擎**: Mermaid, PlantUML, Graphviz, D2, Vega, Vega-Lite 等
 - **⚡ 混合渲染**: 本地 WASM (快速、隐私友好) + 远程 Kroki (广泛支持)
 - **📤 多格式导出**: SVG、PNG (2x/4x)、PDF、HTML、Markdown、源代码
 - **🔗 即时分享**: LZ-string 压缩 URL，轻松分享图表
@@ -66,6 +67,8 @@
 
 ## 🚀 快速开始
 
+> 不想本地安装？直接体验 [在线演示](https://build-workbench.github.io/graph-viewer/)。
+
 ### 系统要求
 
 - Node.js >= 20.0.0
@@ -74,7 +77,7 @@
 ### 安装
 
 ```bash
-git clone https://github.com/vibe-knight/graph-viewer.git
+git clone https://github.com/build-workbench/graph-viewer.git
 cd graph-viewer
 npm install
 npm run dev
@@ -91,24 +94,6 @@ npm run dev
 | `KROKI_BASE_URL`              | Kroki 渲染服务地址                    | `https://kroki.io` |
 | `KROKI_ALLOW_CLIENT_BASE_URL` | 允许客户端指定 Kroki 地址（安全风险） | `false`            |
 | `PORT`                        | 服务端口                              | `3000`             |
-
-### 🎯 30 秒快速体验
-
-将以下 Mermaid 代码粘贴到编辑器中，立即体验 GraphViewer：
-
-```mermaid
-flowchart TD
-    Start([开始]) --> Input[/输入数据/]
-    Input --> Process{是否处理?}
-    Process -->|是| Action1[执行操作 1]
-    Process -->|否| Action2[执行操作 2]
-    Action1 --> Output[/输出结果/]
-    Action2 --> Output
-    Output --> End([结束])
-
-    style Start fill:#4ade80
-    style End fill:#f87171
-```
 
 ## 🔧 支持的引擎
 
@@ -183,7 +168,7 @@ npm run format       # Prettier 格式化
 
 ![GraphViewer 架构图](public/architecture-diagram.svg)
 
-> 上图为交互式架构页 `public/architecture.html` 中摘取的静态示意图（浅色渲染）。完整版支持明暗主题切换、路径聚焦与多种导出，可在仓库中直接打开该 HTML 查看。
+> 上图为静态示意图（浅色渲染）。可交互完整版支持明暗主题切换、路径聚焦与多种导出：**[打开在线版](https://build-workbench.github.io/graph-viewer/architecture.html)** 或查看仓库内 `public/architecture.html`。
 
 ### 目录结构
 
@@ -222,16 +207,6 @@ scripts/      静态导出 / smoke 测试 / Docker 部署
 | 导出               | `lib/export/`                                          |
 | 静态导出           | `scripts/build-static-export.mjs`、`next.config.js`    |
 
-### 验证命令
-
-```bash
-npm run lint          # ESLint
-npm run typecheck     # tsc --noEmit
-npm run test          # Vitest
-npm run build         # standalone 构建 (完整服务版)
-npm run build:static  # 静态导出 (GitHub Pages 版)
-```
-
 ## 🔒 安全性
 
 - 使用 DOMPurify 净化 SVG，Mermaid 严格安全级别
@@ -242,7 +217,7 @@ npm run build:static  # 静态导出 (GitHub Pages 版)
 
 ## 📌 项目状态
 
-本项目为业余项目，现已进入**归档状态**，不再主动维护。代码与文档已精简至可自解释的程度，可供参考与二次开发。
+本项目已进入**归档状态**，不再主动维护。代码与文档保持精简、自解释，可供参考与二次开发。
 
 ## 📄 许可证
 
@@ -255,5 +230,5 @@ npm run build:static  # 静态导出 (GitHub Pages 版)
 ---
 
 <p align="center">
-  用 ❤️ 打造 by GraphViewer 团队
+  由 GraphViewer 团队用 ❤️ 打造
 </p>

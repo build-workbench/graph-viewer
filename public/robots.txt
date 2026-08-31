@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://lessup.github.io/graph-viewer/sitemap.xml
+Sitemap: https://build-workbench.github.io/graph-viewer/sitemap.xml

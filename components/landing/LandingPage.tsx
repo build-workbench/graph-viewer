@@ -37,7 +37,7 @@ const COPY = {
     demoBadgeLink: '了解限制',
     ossBadge: '开源免费 · 开箱即用',
     h1Line1: '现代图表可视化工具',
-    h1Line2: '16+ 引擎一体化支持',
+    h1Line2: '16 个引擎一体化支持',
     pPrefix: '支持 Mermaid、PlantUML、Graphviz、D2 等主流图表语法。',
     pLocal: '本地渲染保护隐私',
     pRemote: '远程渲染支持更多格式',
@@ -54,7 +54,7 @@ const COPY = {
     p: '满足个人开发者和企业团队的各种图表需求',
     items: [
       {
-        title: '16+ 图表引擎',
+        title: '16 个图表引擎',
         description:
           '支持 Mermaid、PlantUML、Graphviz、D2、Vega 等主流图表语法，满足各种可视化需求。',
       },
@@ -82,12 +82,12 @@ const COPY = {
     ],
   },
   engines: {
-    h2: '支持 16+ 图表引擎',
+    h2: '支持 16 个图表引擎',
     p: '从简单的流程图到复杂的数据可视化，一个工具全搞定',
     localBadge: '本地',
     tipPrefix: '💡 提示：',
     tipText:
-      '标注"本地"的引擎在 GitHub Pages 演示版中完全可用，无需后端服务。 完整版 Docker 部署支持全部 16+ 引擎和 PNG/PDF 导出。',
+      '标注"本地"的引擎在 GitHub Pages 演示版中完全可用，无需后端服务。 完整版 Docker 部署支持全部 16 个引擎和 PNG/PDF 导出。',
   },
   deployment: {
     h2: '选择适合你的部署方式',
@@ -112,11 +112,11 @@ const COPY = {
         title: 'Docker（完整版）',
         subtitle: '推荐',
         badge: '完整功能',
-        description: '一键部署，获得完整的 16+ 引擎支持和高级功能',
+        description: '一键部署，获得完整的 16 个引擎支持和高级功能',
         note: '适合团队协作和生产环境',
         cta: '查看部署指南',
         features: [
-          { text: '全部 16+ 图表引擎', available: true },
+          { text: '全部 16 个图表引擎', available: true },
           { text: 'SVG / PNG / PDF 全格式导出', available: true },
           { text: '可选 AI 辅助功能', available: true },
           { text: '完整的数据持久化', available: true },
@@ -131,7 +131,7 @@ const COPY = {
       {
         category: '支持引擎',
         demo: '3 个（Mermaid, Graphviz, Flowchart.js）',
-        full: '16+ 个（包括 PlantUML, D2, Vega 等）',
+        full: '16 个（包括 PlantUML, D2, Vega 等）',
       },
       {
         category: '导出格式',
@@ -154,7 +154,7 @@ const COPY = {
   },
   cta: {
     h2: '准备好开始了吗？',
-    pDemo: '当前为演示版，支持 3 个本地渲染引擎。部署完整版可解锁全部 16+ 引擎和高级功能。',
+    pDemo: '当前为演示版，支持 3 个本地渲染引擎。部署完整版可解锁全部 16 个引擎和高级功能。',
     pFull: '无需注册，立即在浏览器中体验。或者部署自己的实例获得完整功能。',
     tryDemo: '在演示版中试用',
     tryNow: '立即试用',
@@ -172,7 +172,7 @@ const COPY = {
     resources: '资源',
     githubRepo: 'GitHub 仓库',
     documentation: '使用文档',
-    documentationHref: 'https://github.com/vibe-knight/graph-viewer/blob/master/README.md',
+    documentationHref: 'https://github.com/build-workbench/graph-viewer/blob/master/README.md',
     issueTracker: '问题反馈',
     technology: '技术',
     nextjs: 'Next.js 15',
@@ -208,7 +208,7 @@ export function LandingPage() {
           </div>
           <div className="flex items-center gap-4">
             <Link
-              href="https://github.com/vibe-knight/graph-viewer"
+              href="https://github.com/build-workbench/graph-viewer"
               target="_blank"
               className="flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-medium text-slate-600 transition-colors hover:bg-slate-100 hover:text-slate-900"
             >
@@ -275,7 +275,7 @@ export function LandingPage() {
               <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
             </Link>
             <Link
-              href="https://github.com/vibe-knight/graph-viewer"
+              href="https://github.com/build-workbench/graph-viewer"
               target="_blank"
               className="flex items-center gap-2 rounded-xl border border-slate-200 bg-white px-8 py-4 text-base font-semibold text-slate-700 shadow-sm transition-all hover:border-slate-300 hover:bg-slate-50"
             >
@@ -287,7 +287,7 @@ export function LandingPage() {
           {/* GitHub Stars Badge */}
           <div className="mt-8 flex items-center justify-center gap-4 text-sm text-slate-500">
             <Image
-              src="https://img.shields.io/github/stars/vibe-knight/graph-viewer?style=social"
+              src="https://img.shields.io/github/stars/build-workbench/graph-viewer?style=social"
               alt="GitHub Stars"
               width={100}
               height={24}
@@ -397,7 +397,7 @@ export function LandingPage() {
               const OptionIcon = DEPLOYMENT_OPTION_ICONS[optIdx] ?? Server;
               const isPrimary = optIdx === 1;
               const href = isPrimary
-                ? 'https://github.com/vibe-knight/graph-viewer#deployment'
+                ? 'https://github.com/build-workbench/graph-viewer#deployment'
                 : '/editor/';
               return (
                 <div
@@ -535,7 +535,7 @@ export function LandingPage() {
                   演示版使用本地 WASM
                   渲染引擎，数据完全在浏览器中处理，保护隐私安全。如需完整功能，建议
                   <Link
-                    href="https://github.com/vibe-knight/graph-viewer#deployment"
+                    href="https://github.com/build-workbench/graph-viewer#deployment"
                     target="_blank"
                     className="mx-1 font-medium underline hover:text-amber-900"
                   >
@@ -565,7 +565,7 @@ export function LandingPage() {
               {isStaticExport ? COPY.cta.tryDemo : COPY.cta.tryNow}
             </Link>
             <Link
-              href="https://github.com/vibe-knight/graph-viewer#deployment"
+              href="https://github.com/build-workbench/graph-viewer#deployment"
               target="_blank"
               className={`flex items-center gap-2 rounded-xl border px-8 py-4 text-base font-semibold transition-all ${
                 isStaticExport
@@ -630,7 +630,7 @@ export function LandingPage() {
               <ul className="space-y-2 text-sm text-slate-600">
                 <li>
                   <Link
-                    href="https://github.com/vibe-knight/graph-viewer"
+                    href="https://github.com/build-workbench/graph-viewer"
                     target="_blank"
                     className="hover:text-sky-600"
                   >
@@ -648,7 +648,7 @@ export function LandingPage() {
                 </li>
                 <li>
                   <Link
-                    href="https://github.com/vibe-knight/graph-viewer/issues"
+                    href="https://github.com/build-workbench/graph-viewer/issues"
                     target="_blank"
                     className="hover:text-sky-600"
                   >
@@ -678,7 +678,7 @@ export function LandingPage() {
             <p>{COPY.footer.copyright}</p>
             <div className="flex items-center gap-4">
               <Link
-                href="https://github.com/vibe-knight/graph-viewer"
+                href="https://github.com/build-workbench/graph-viewer"
                 target="_blank"
                 className="hover:text-slate-700"
               >

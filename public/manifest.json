@@ -1,7 +1,7 @@
 {
   "name": "GraphViewer - 图表可视化工具",
   "short_name": "GraphViewer",
-  "description": "支持 16+ 图表引擎的一体化图表可视化工具",
+  "description": "支持 16 个图表引擎的一体化图表可视化工具",
   "start_url": ".",
   "display": "standalone",
   "background_color": "#ffffff",

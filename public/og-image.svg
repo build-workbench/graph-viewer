@@ -7,8 +7,8 @@
   <circle cx="164" cy="161" r="9" fill="#f87171"/>
   <circle cx="194" cy="161" r="9" fill="#fbbf24"/>
   <circle cx="224" cy="161" r="9" fill="#34d399"/>
-  <rect x="264" y="146" width="354" height="30" rx="15" fill="#ffffff"/>
-  <text x="291" y="167" font-family="Inter, Arial, sans-serif" font-size="17" fill="#64748b">lessup.github.io/graph-viewer</text>
+  <rect x="264" y="146" width="404" height="30" rx="15" fill="#ffffff"/>
+  <text x="291" y="167" font-family="Inter, Arial, sans-serif" font-size="17" fill="#64748b">build-workbench.github.io/graph-viewer</text>
   <rect x="128" y="232" width="438" height="274" rx="24" fill="#111827"/>
   <text x="166" y="286" font-family="JetBrains Mono, Consolas, monospace" font-size="27" fill="#38bdf8">graph TD</text>
   <text x="166" y="334" font-family="JetBrains Mono, Consolas, monospace" font-size="25" fill="#cbd5e1">A[Idea] --&gt; B[Diagram]</text>
