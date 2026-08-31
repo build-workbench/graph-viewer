@@ -181,20 +181,9 @@ npm run format       # Prettier 格式化
 
 ## 🏗️ 架构
 
-```
-用户输入 -> 编辑器 -> 预览引擎
-                    ↓
-         ┌──────────┴──────────┐
-         ↓                     ↓
-   本地 WASM             远程 Kroki
-   (Mermaid /              (其他所有
-    Flowchart /             引擎)
-    Graphviz)
-         ↓                     ↓
-         └──────────┬──────────┘
-                    ↓
-               SVG/PNG/PDF 输出
-```
+![GraphViewer 架构图](public/architecture-diagram.svg)
+
+> 上图为交互式架构页 `public/architecture.html` 中摘取的静态示意图（浅色渲染）。完整版支持明暗主题切换、路径聚焦与多种导出，可在仓库中直接打开该 HTML 查看。
 
 ### 目录结构
 
