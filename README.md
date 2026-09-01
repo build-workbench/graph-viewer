@@ -1,234 +1,210 @@
 # GraphViewer
 
 <p align="center">
-  <strong>🎨 现代化一站式图表可视化工具</strong>
+  在浏览器中编辑、预览与分享图表<br/>
+  <em>支持 Mermaid、PlantUML、Graphviz、D2 等 16 种语法，开箱即用</em>
 </p>
 
 <p align="center">
-  <em>支持 16 个图表引擎，混合本地/远程渲染</em>
+  <a href="https://build-workbench.github.io/graph-viewer/"><strong>在线演示</strong></a>
+  ·
+  <a href="#快速开始">快速开始</a>
+  ·
+  <a href="#支持的引擎">支持的引擎</a>
+  ·
+  <a href="#部署">部署</a>
 </p>
 
 <p align="center">
   <img src="https://img.shields.io/badge/version-1.0.0-blue.svg" alt="Version">
-  <a href="https://github.com/build-workbench/graph-viewer/blob/master/LICENSE">
-    <img src="https://img.shields.io/badge/License-MIT-green.svg" alt="License">
-  </a>
-  <a href="https://github.com/build-workbench/graph-viewer/actions/workflows/ci.yml">
-    <img src="https://img.shields.io/badge/CI-passing-brightgreen.svg" alt="CI">
-  </a>
-  <a href="https://github.com/build-workbench/graph-viewer/actions/workflows/pages.yml">
-    <img src="https://img.shields.io/badge/Pages-Deploy-success.svg" alt="Pages Deploy">
-  </a>
+  <a href="LICENSE"><img src="https://img.shields.io/badge/License-MIT-green.svg" alt="License"></a>
   <img src="https://img.shields.io/badge/Next.js-15-black.svg" alt="Next.js">
   <img src="https://img.shields.io/badge/React-19-61DAFB.svg" alt="React">
 </p>
 
-<p align="center">
-  <a href="https://build-workbench.github.io/graph-viewer/"><strong>🚀 在线演示</strong></a>
-</p>
+---
+
+## 简介
+
+GraphViewer 是一个图表编辑与预览工具，提供统一的编辑器、实时预览和导出能力。
+
+- **16 种图表语法**，同一界面内切换，无需更换工具
+- **混合渲染**：常用引擎（Mermaid / Graphviz / Flowchart.js）在浏览器内通过 WASM 本地渲染，隐私且离线可用；其余引擎通过 [Kroki](https://kroki.io) 远程渲染
+- **完整工作流**：实时预览、多图表工作区、版本历史、LZ 压缩分享链接、多格式导出（SVG / PNG / PDF / HTML / Markdown）
+
+> 在线演示部署于 GitHub Pages，仅含 3 个本地引擎，用于快速体验。完整能力需通过 Docker 或 Node 服务部署。
 
 ---
 
-## 目录
+## 特性
 
-- [为什么选择 GraphViewer？](#为什么选择-graphviewer)
-- [核心特性](#核心特性)
-- [快速开始](#快速开始)
-- [支持的引擎](#支持的引擎)
-- [部署](#部署)
-- [开发](#开发)
-- [架构](#架构)
-- [安全性](#安全性)
-- [项目状态](#项目状态)
-- [许可证](#许可证)
-- [致谢](#致谢)
+- **多引擎统一体验** — Mermaid、PlantUML、Graphviz、D2、Vega / Vega-Lite、WaveDrom 等 16 个引擎
+- **本地优先，远程补充** — 本地 WASM 即时渲染、离线可用；远程 Kroki 覆盖更多语法与导出格式
+- **所见即所得** — CodeMirror 编辑、语法高亮、防抖实时预览
+- **工作区管理** — 多图表本地持久化、版本快照、导入/导出工作区
+- **分享与导出** — URL 压缩分享（约 100 字节）、SVG / PNG（2x/4x）/ PDF / 源码导出
+- **可选 AI 辅助** — 自带 Key 直连模型供应商，支持代码分析、生成与修复（默认关闭，不落盘）
 
 ---
 
-## 🎯 为什么选择 GraphViewer？
+## 快速开始
 
-| 特性         | GraphViewer             | 传统工具         |
-| ------------ | ----------------------- | ---------------- |
-| **渲染速度** | ⚡ 本地 WASM（即时渲染） | ☁️ 始终远程渲染  |
-| **隐私安全** | 🔒 代码不会离开浏览器   | ⚠️ 发送至服务器  |
-| **引擎支持** | 16 个引擎，统一界面     | 通常仅 3-5 个    |
-| **分享大小** | ~100 字节 (LZ 压缩 URL) | 大文件或外部链接 |
-| **离线支持** | ✅ 本地引擎完全离线     | ❌ 需要网络连接  |
+### 在线体验
 
-## ✨ 核心特性
+无需安装，直接打开：**https://build-workbench.github.io/graph-viewer/**
 
-- **🚀 16 个图表引擎**: Mermaid, PlantUML, Graphviz, D2, Vega, Vega-Lite 等
-- **⚡ 混合渲染**: 本地 WASM (快速、隐私友好) + 远程 Kroki (广泛支持)
-- **📤 多格式导出**: SVG、PNG (2x/4x)、PDF、HTML、Markdown、源代码
-- **🔗 即时分享**: LZ-string 压缩 URL，轻松分享图表
-- **💾 多图表工作区**: 本地持久化存储，支持版本历史
-- **🤖 AI 助手**: 可选的 AI 驱动代码分析和生成
-- **👁️ 实时预览**: 带防抖的实时预览，支持手动渲染
+### 本地运行
 
-## 🚀 快速开始
-
-> 不想本地安装？直接体验 [在线演示](https://build-workbench.github.io/graph-viewer/)。
-
-### 系统要求
-
-- Node.js >= 20.0.0
-- npm >= 10.0.0
-
-### 安装
+要求：Node.js >= 20，npm >= 10
 
 ```bash
 git clone https://github.com/build-workbench/graph-viewer.git
 cd graph-viewer
 npm install
 npm run dev
+# 打开 http://localhost:3000
 ```
 
-访问 [http://localhost:3000](http://localhost:3000)。
+### 环境变量（可选）
 
-### 环境配置（可选）
+复制 `.env.example` 为 `.env` 后按需修改：
 
-复制 `.env.example` 为 `.env` 进行自定义配置：
-
-| 变量                          | 说明                                  | 默认值             |
-| ----------------------------- | ------------------------------------- | ------------------ |
-| `KROKI_BASE_URL`              | Kroki 渲染服务地址                    | `https://kroki.io` |
-| `KROKI_ALLOW_CLIENT_BASE_URL` | 允许客户端指定 Kroki 地址（安全风险） | `false`            |
-| `PORT`                        | 服务端口                              | `3000`             |
-
-## 🔧 支持的引擎
-
-### 本地渲染（快速且私密，无需网络）
-
-| 引擎                                      | 说明                     |
-| ----------------------------------------- | ------------------------ |
-| [Mermaid](https://mermaid.js.org/)        | 流程图、时序图、甘特图等 |
-| [Graphviz](https://graphviz.org/)         | 多种布局引擎的图可视化   |
-| [Flowchart.js](https://flowchart.js.org/) | 简单易用的流程图语法     |
-
-### 远程渲染（通过 Kroki 代理）
-
-| 引擎                                                                                  | 说明                           |
-| ------------------------------------------------------------------------------------- | ------------------------------ |
-| [PlantUML](https://plantuml.com/)                                                     | UML 图、思维导图、工作分解结构 |
-| [D2](https://d2lang.com/)                                                             | 现代声明式图表                 |
-| [Nomnoml](https://nomnoml.com/)                                                       | 简洁的 UML 绘图                |
-| [Ditaa](https://ditaa.sourceforge.net/)                                               | ASCII 艺术转图表               |
-| BlockDiag / NwDiag / ActDiag / SeqDiag                                                | 块状图、网络图、活动图、时序图 |
-| [ERD](https://github.com/BurntSushi/erd)                                              | 实体关系图                     |
-| [SVGBob](https://github.com/ivanceras/svgbob)                                         | ASCII 转 SVG                   |
-| [WaveDrom](https://wavedrom.com/)                                                     | 数字时序波形图                 |
-| [Vega](https://vega.github.io/vega/) / [Vega-Lite](https://vega.github.io/vega-lite/) | 声明式数据可视化               |
-
-> 静态导出模式（GitHub Pages）仅启用本地 3 引擎；完整服务模式（Docker/Node）通过 `/api/render` 代理 Kroki 支持全部 16 引擎。
-
-## 🚢 部署
-
-### Docker (推荐，完整服务模式)
-
-```bash
-# 生产环境 + 公共 Kroki
-docker compose --profile prod up -d
-
-# 生产环境 + 自建 Kroki（更好的隐私保护）
-docker compose --profile prod --profile kroki up -d
-```
-
-| Profile | 用途                |
-| ------- | ------------------- |
-| `prod`  | 生产 Web 服务器     |
-| `kroki` | 自建 Kroki 渲染服务 |
-| `dev`   | 开发环境（热重载）  |
-
-便捷脚本：`ENV=prod ./scripts/deploy.sh`。
-
-### GitHub Pages (静态导出模式)
-
-```bash
-npm run build:static
-```
-
-构建产物输出到 `out/`，仅含本地 3 引擎，无需服务端。推送到 `master` 分支会通过 `.github/workflows/pages.yml` 自动部署。
-
-## 🛠️ 开发
-
-```bash
-npm run dev          # 开发服务器 (端口 3000)
-npm run build        # 生产构建 (含 API 路由)
-npm run build:static # 静态导出 (用于 GitHub Pages)
-npm run start        # 生产服务器
-
-# 代码质量
-npm run test         # 单元测试 (vitest)
-npm run lint         # ESLint 检查
-npm run typecheck    # TypeScript 检查
-npm run format       # Prettier 格式化
-```
-
-## 🏗️ 架构
-
-![GraphViewer 架构图](public/architecture-diagram.svg)
-
-> 上图为静态示意图（浅色渲染）。可交互完整版支持明暗主题切换、路径聚焦与多种导出：**[打开在线版](https://build-workbench.github.io/graph-viewer/architecture.html)** 或查看仓库内 `public/architecture.html`。
-
-### 目录结构
-
-```
-app/          路由层 (Next.js App Router)
-  editor/         编辑器页面
-  api/render/     Kroki 代理 API
-  api/healthz/    健康检查
-components/   UI 层 (按功能域分组)
-  editor/ preview/ sidebar/ ai/ version/ dialogs/ landing/ layout/
-hooks/        React 逻辑层 (状态、渲染、版本历史、AI、设置)
-lib/          纯逻辑层 + 状态层
-  diagramConfig.ts    引擎/格式/分组的单一事实源
-  runtime.ts          静态导出模式判断的单一事实源
-  diagramContext.tsx  图表状态 Context
-  render.ts           本地 WASM / 远程 Kroki 渲染分流
-  ai/ export/ server/ AI、导出、服务端缓存与限流
-scripts/      静态导出 / smoke 测试 / Docker 部署
-```
-
-### 关键文件地图
-
-| 责任               | 文件                                                   |
-| ------------------ | ------------------------------------------------------ |
-| 引擎/格式/展示分组 | `lib/diagramConfig.ts`                                 |
-| 运行时环境判断     | `lib/runtime.ts`                                       |
-| 应用配置常量       | `lib/config.ts`                                        |
-| 图表状态 Context   | `lib/diagramContext.tsx`                               |
-| 工作区状态         | `hooks/useDiagramState.ts`                             |
-| 本地/远程渲染分流  | `hooks/useDiagramRender.ts`、`lib/render.ts`           |
-| 实时预览           | `hooks/useLivePreview.ts`                              |
-| Kroki API route    | `app/api/render/route.ts`                              |
-| API 缓存/限流      | `lib/server/renderCache.ts`、`lib/server/rateLimit.ts` |
-| 错误系统           | `lib/errors.ts`                                        |
-| AI 客户端          | `lib/ai/`                                              |
-| 导出               | `lib/export/`                                          |
-| 静态导出           | `scripts/build-static-export.mjs`、`next.config.js`    |
-
-## 🔒 安全性
-
-- 使用 DOMPurify 净化 SVG，Mermaid 严格安全级别
-- Kroki URL 规范化并受 allowlist 约束
-- 输入长度限制、请求超时、速率限制、inflight 去重
-- API Key 不写入 localStorage；AI 面板浏览器直连供应商
-- 安全响应头（X-Frame-Options、X-Content-Type-Options 等）
-
-## 📌 项目状态
-
-本项目已进入**归档状态**，不再主动维护。代码与文档保持精简、自解释，可供参考与二次开发。
-
-## 📄 许可证
-
-[MIT License](LICENSE)
-
-## 🙏 致谢
-
-基于 [Mermaid](https://mermaid.js.org/)、[Kroki](https://kroki.io/)、[CodeMirror](https://codemirror.net/)、[Next.js](https://nextjs.org/) 和 [Graphviz WASM](https://github.com/hpcc-systems/hpcc-js-wasm) 构建。
+| 变量 | 说明 | 默认值 |
+|---|---|---|
+| `KROKI_BASE_URL` | Kroki 服务地址 | `https://kroki.io` |
+| `KROKI_ALLOW_CLIENT_BASE_URL` | 是否允许客户端指定任意 Kroki 地址（有 SSRF 风险，仅开发环境开启） | `false` |
+| `KROKI_CLIENT_BASE_URL_ALLOWLIST` | 允许的客户端 Kroki 地址白名单，逗号分隔 | 为空（仅允许 `KROKI_BASE_URL`） |
+| `PORT` | 服务端口 | `3000` |
 
 ---
 
-<p align="center">
-  由 GraphViewer 团队用 ❤️ 打造
-</p>
+## 支持的引擎
+
+| 引擎 | 渲染方式 | 说明 |
+|---|---|---|
+| [Mermaid](https://mermaid.js.org/) | 本地 WASM | 流程图、时序图、甘特图、类图等 |
+| [Graphviz](https://graphviz.org/) | 本地 WASM | DOT 语言，多布局引擎 |
+| [Flowchart.js](https://flowchart.js.org/) | 本地 | 轻量流程图 |
+| [PlantUML](https://plantuml.com/) | 远程 Kroki | UML、思维导图、WBS 等 |
+| [D2](https://d2lang.com/) | 远程 Kroki | 声明式现代图表 |
+| BlockDiag / NwDiag / ActDiag / SeqDiag | 远程 Kroki | 块状图、网络图、活动图、时序图 |
+| [Vega](https://vega.github.io/vega/) / [Vega-Lite](https://vega.github.io/vega-lite/) | 远程 Kroki | 声明式数据可视化 |
+| [WaveDrom](https://wavedrom.com/) | 远程 Kroki | 数字时序波形 |
+| [Nomnoml](https://nomnoml.com/) / [Ditaa](https://ditaa.sourceforge.net/) / [SVGBob](https://github.com/ivanceras/svgbob) / [ERD](https://github.com/BurntSushi/erd) | 远程 Kroki | UML 简绘、ASCII 转图、实体关系图 |
+
+> **两种运行模式**
+> - **静态导出（GitHub Pages）**：仅 3 个本地引擎，导出仅 SVG，无需服务端
+> - **完整服务（Docker / Node）**：通过 `/api/render` 代理 Kroki，支持全部 16 引擎及 PNG / PDF 导出
+
+---
+
+## 部署
+
+### 模式对比
+
+|  | GitHub Pages（静态） | Docker（完整服务，推荐） |
+|---|---|---|
+| 引擎数量 | 3 个本地引擎 | 全部 16 个 |
+| 导出格式 | SVG | SVG / PNG / PDF / HTML / Markdown |
+| 服务依赖 | 无 | Node 服务 + Kroki（可选自建） |
+| 适用场景 | 快速体验、个人试用 | 团队使用、生产部署 |
+
+### Docker 部署
+
+```bash
+# 使用公共 Kroki
+docker compose --profile prod up -d
+
+# 自建 Kroki（数据不出内网，隐私更好）
+docker compose --profile prod --profile kroki up -d
+```
+
+| Profile | 说明 |
+|---|---|
+| `prod` | 生产 Web 服务 |
+| `kroki` | 自建 Kroki 渲染服务 |
+| `dev` | 开发环境（热重载） |
+
+快捷脚本：`ENV=prod ./scripts/deploy.sh`，内置健康检查（`/api/healthz`）。
+
+### 静态部署（GitHub Pages）
+
+```bash
+npm run build:static
+# 产物在 out/，可直接托管至任意静态服务
+```
+
+推送到 `master` 分支时，由 `.github/workflows/pages.yml` 自动构建并发布。
+
+---
+
+## 本地开发
+
+```bash
+npm run dev          # 开发服务器 http://localhost:3000
+npm run build        # 生产构建（含 API 路由）
+npm run build:static # 静态导出
+npm run start        # 启动生产服务（需先 build）
+
+npm run test         # 单测（vitest）
+npm run lint         # ESLint
+npm run typecheck    # TypeScript 类型检查
+npm run format       # Prettier 格式化
+```
+
+---
+
+## 架构
+
+![GraphViewer 架构图](public/architecture-diagram.svg)
+
+> 浅色静态示意图。可交互版本（支持明暗主题、路径高亮与导出）：[在线查看](https://build-workbench.github.io/graph-viewer/architecture.html) 或本地打开 `public/architecture.html`。
+
+**分层简述**
+
+- `app/` — 路由层（Next.js App Router，`editor/`、`api/render`、`api/healthz`）
+- `components/` — UI 层（按 `editor/` `preview/` `sidebar/` `ai/` `dialogs/` `landing/` 划分）
+- `hooks/` — 状态与副作用（图表状态、渲染分流、实时预览、版本历史、AI）
+- `lib/` — 纯逻辑与配置（`diagramConfig.ts` 为引擎唯一事实源，`render.ts` 负责本地/远程分流，`export/` `ai/` `server/` 分别处理导出、AI 与服务端能力）
+- `scripts/` — 构建与部署脚本
+
+<details>
+<summary>关键文件索引（面向贡献者）</summary>
+
+| 职责 | 文件 |
+|---|---|
+| 引擎 / 格式 / 分组定义 | `lib/diagramConfig.ts` |
+| 静态导出判断 | `lib/runtime.ts` |
+| 应用常量 | `lib/config.ts` |
+| 图表状态 | `lib/diagramContext.tsx`、`hooks/useDiagramState.ts` |
+| 渲染分流 | `hooks/useDiagramRender.ts`、`lib/render.ts` |
+| 实时预览 | `hooks/useLivePreview.ts` |
+| Kroki 代理 | `app/api/render/route.ts` |
+| 缓存 / 限流 | `lib/server/renderCache.ts`、`lib/server/rateLimit.ts` |
+| 静态导出构建 | `scripts/build-static-export.mjs`、`next.config.js` |
+
+</details>
+
+---
+
+## 安全说明
+
+- SVG 渲染前经 [DOMPurify](https://github.com/cure53/DOMPurify) 净化，Mermaid 启用严格安全模式
+- Kroki 地址做规范化与白名单校验，默认禁止客户端任意指定
+- 服务端对输入长度、请求超时、并发去重与速率限制做约束
+- AI 功能为可选，API Key 仅存于内存、浏览器直连供应商，不写入 localStorage 或服务端
+- 生产环境下发 `X-Frame-Options: DENY` 等安全响应头
+
+---
+
+## 项目状态
+
+本项目已归档，不再主动迭代。现有代码与文档保持可用，可直接使用或 fork 二次开发。如需反馈问题，请提 [Issue](https://github.com/build-workbench/graph-viewer/issues)。
+
+## 许可证
+
+[MIT](LICENSE)
+
+## 致谢
+
+基于 [Mermaid](https://mermaid.js.org/)、[Kroki](https://kroki.io/)、[CodeMirror](https://codemirror.net/)、[Next.js](https://nextjs.org/)、[Graphviz WASM](https://github.com/hpcc-systems/hpcc-js-wasm) 构建，感谢开源社区。
