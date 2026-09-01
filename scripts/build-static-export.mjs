@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 import { spawn } from 'node:child_process';
-import { cp, mkdtemp, rm, symlink, writeFile, readFile } from 'node:fs/promises';
+import { cp, mkdtemp, rm, symlink, writeFile, readFile, readdir } from 'node:fs/promises';
 import { existsSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { dirname, join, relative, resolve } from 'node:path';
@@ -54,6 +54,33 @@ function run(command, args, cwd, env) {
     });
     child.on('error', rejectPromise);
   });
+}
+
+async function rewriteCssFontUrls(outDir) {
+  const cssRoot = join(outDir, '_next', 'static', 'css');
+  let files = [];
+  try {
+    files = await readdir(cssRoot);
+  } catch {
+    return; // 无 CSS 目录
+  }
+
+  for (const f of files) {
+    if (!f.endsWith('.css')) continue;
+    const p = join(cssRoot, f);
+    let css;
+    try {
+      css = await readFile(p, 'utf-8');
+    } catch {
+      continue;
+    }
+    // url(/fonts/) / url("/fonts/") / url('/fonts/') → url({basePath}/fonts/) — 兼容引号与空白，保留原始引号
+    const rewritten = css.replace(/url\((\s*)(["']?)\/fonts\//g, `url($1$2${basePath}/fonts/`);
+    if (rewritten !== css) {
+      await writeFile(p, rewritten);
+      console.log(`✅ Rewrote font urls in ${f}`);
+    }
+  }
 }
 
 async function updateManifestFile(outDir) {
@@ -157,6 +184,10 @@ try {
   // Update manifest.json with correct paths
   // 使用正确路径更新 manifest.json
   await updateManifestFile(join(workDir, 'out'));
+
+  // Rewrite CSS font urls: basePath prefix
+  // CSS 中字体 url(/fonts/...) 需加上 basePath 前缀, 否则部署子路径下 404
+  await rewriteCssFontUrls(join(workDir, 'out'));
   
   // Copy build output to project root
   // 复制构建输出到项目根目录

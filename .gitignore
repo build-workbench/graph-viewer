@@ -54,3 +54,6 @@ CLAUDE.local.md
 
 # OMC session state (temporary)
 .omc/
+
+# Local checks / screenshots
+.tmp-checks/
