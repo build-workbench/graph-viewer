@@ -172,7 +172,7 @@ const COPY = {
     resources: '资源',
     githubRepo: 'GitHub 仓库',
     documentation: '使用文档',
-    documentationHref: 'https://github.com/build-workbench/graph-viewer/blob/master/README.md',
+    documentationHref: 'https://github.com/build-workbench/graph-viewer/blob/main/README.md',
     issueTracker: '问题反馈',
     technology: '技术',
     nextjs: 'Next.js 15',
