@@ -57,3 +57,9 @@ CLAUDE.local.md
 
 # Local checks / screenshots
 .tmp-checks/
+
+# AI tools (local only)
+.commandcode/
+.codex/
+.agents/
+.superpowers/
