@@ -5,8 +5,12 @@ import { defineConfig } from 'vitest/config';
 const rootDir = dirname(fileURLToPath(import.meta.url));
 
 export default defineConfig({
-  esbuild: {
-    jsx: 'automatic',
+  // Vite 8 起用 Oxc 取代 esbuild 做 JSX 转换。项目 tsconfig 为 Next.js 设了
+  // "jsx": "preserve",会阻断 Oxc 解析 .tsx,故在此显式指定 automatic runtime。
+  oxc: {
+    jsx: {
+      runtime: 'automatic',
+    },
   },
   resolve: {
     alias: {
