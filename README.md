@@ -1,6 +1,220 @@
 # GraphViewer
 
 <p align="center">
+  Edit, preview, and share diagrams in the browser<br/>
+  <em>Supports 16 syntaxes including Mermaid, PlantUML, Graphviz, and D2 — ready to use out of the box</em>
+</p>
+
+<p align="center">
+  <a href="https://build-workbench.github.io/graph-viewer/"><strong>Online demo</strong></a>
+  ·
+  <a href="#quick-start">Quick Start</a>
+  ·
+  <a href="#supported-engines">Supported Engines</a>
+  ·
+  <a href="#deployment">Deployment</a>
+</p>
+
+<p align="center">
+  <img src="https://img.shields.io/badge/version-1.0.0-blue.svg" alt="Version">
+  <a href="LICENSE"><img src="https://img.shields.io/badge/License-MIT-green.svg" alt="License"></a>
+  <img src="https://img.shields.io/badge/Next.js-15-black.svg" alt="Next.js">
+  <img src="https://img.shields.io/badge/React-19-61DAFB.svg" alt="React">
+</p>
+
+---
+
+## Introduction
+
+GraphViewer is a diagram editing and preview tool that provides a unified editor, real-time preview, and export capabilities.
+
+- **16 diagram syntaxes**, switchable within the same interface, no need to switch tools
+- **Hybrid rendering**: common engines (Mermaid / Graphviz / Flowchart.js) render locally in the browser via WASM — private and available offline; other engines are rendered remotely via [Kroki](https://kroki.io)
+- **Complete workflow**: real-time preview, multi-diagram workspaces, version history, LZ-compressed share links, multi-format export (SVG / PNG / PDF / HTML / Markdown)
+
+> The online demo is deployed on GitHub Pages and only includes the 3 local engines, for a quick try. The full capabilities require deployment via Docker or the Node service.
+
+---
+
+## Features
+
+- **Unified multi-engine experience** — 16 engines including Mermaid, PlantUML, Graphviz, D2, Vega / Vega-Lite, and WaveDrom
+- **Local-first, remote supplement** — local WASM instant rendering, available offline; remote Kroki covers more syntaxes and export formats
+- **WYSIWYG** — CodeMirror editing, syntax highlighting, debounced live preview
+- **Workspace management** — local persistence of multiple diagrams, version snapshots, workspace import/export
+- **Sharing and export** — URL-compressed sharing (about 100 bytes), SVG / PNG (2x/4x) / PDF / source export
+- **Optional AI assistance** — bring your own key to connect directly to model providers; supports code analysis, generation, and fixes (off by default, never persisted)
+
+---
+
+## Quick Start
+
+### Online
+
+No installation needed — just open: **https://build-workbench.github.io/graph-viewer/**
+
+### Run Locally
+
+Requirements: Node.js >= 20, npm >= 10
+
+```bash
+git clone https://github.com/build-workbench/graph-viewer.git
+cd graph-viewer
+npm install
+npm run dev
+# 打开 http://localhost:3000
+```
+
+### Environment Variables (Optional)
+
+Copy `.env.example` to `.env` and modify as needed:
+
+| Variable | Description | Default |
+|---|---|---|
+| `KROKI_BASE_URL` | Kroki service address | `https://kroki.io` |
+| `KROKI_ALLOW_CLIENT_BASE_URL` | Whether to allow clients to specify an arbitrary Kroki address (SSRF risk; enable only in development) | `false` |
+| `KROKI_CLIENT_BASE_URL_ALLOWLIST` | Allowlist of client Kroki addresses, comma-separated | Empty (only `KROKI_BASE_URL` is allowed) |
+| `PORT` | Service port | `3000` |
+
+---
+
+## Supported Engines
+
+| Engine | Rendering | Description |
+|---|---|---|
+| [Mermaid](https://mermaid.js.org/) | Local WASM | Flowcharts, sequence diagrams, Gantt charts, class diagrams, etc. |
+| [Graphviz](https://graphviz.org/) | Local WASM | DOT language, multiple layout engines |
+| [Flowchart.js](https://flowchart.js.org/) | Local | Lightweight flowcharts |
+| [PlantUML](https://plantuml.com/) | Remote Kroki | UML, mind maps, WBS, etc. |
+| [D2](https://d2lang.com/) | Remote Kroki | Declarative modern diagrams |
+| BlockDiag / NwDiag / ActDiag / SeqDiag | Remote Kroki | Block diagrams, network diagrams, activity diagrams, sequence diagrams |
+| [Vega](https://vega.github.io/vega/) / [Vega-Lite](https://vega.github.io/vega-lite/) | Remote Kroki | Declarative data visualization |
+| [WaveDrom](https://wavedrom.com/) | Remote Kroki | Digital timing waveforms |
+| [Nomnoml](https://nomnoml.com/) / [Ditaa](https://ditaa.sourceforge.net/) / [SVGBob](https://github.com/ivanceras/svgbob) / [ERD](https://github.com/BurntSushi/erd) | Remote Kroki | Simplified UML, ASCII to diagram, entity-relationship diagrams |
+
+> **Two runtime modes**
+> - **Static export (GitHub Pages)**: only the 3 local engines, SVG-only export, no server required
+> - **Full service (Docker / Node)**: proxies Kroki via `/api/render`, supports all 16 engines and PNG / PDF export
+
+---
+
+## Deployment
+
+### Mode Comparison
+
+|  | GitHub Pages (static) | Docker (full service, recommended) |
+|---|---|---|
+| Number of engines | 3 local engines | All 16 |
+| Export formats | SVG | SVG / PNG / PDF / HTML / Markdown |
+| Service dependencies | None | Node service + Kroki (optionally self-hosted) |
+| Use cases | Quick try-out, personal use | Team use, production deployment |
+
+### Docker Deployment
+
+```bash
+# 使用公共 Kroki
+docker compose --profile prod up -d
+
+# 自建 Kroki（数据不出内网，隐私更好）
+docker compose --profile prod --profile kroki up -d
+```
+
+| Profile | Description |
+|---|---|
+| `prod` | Production web service |
+| `kroki` | Self-hosted Kroki rendering service |
+| `dev` | Development environment (hot reload) |
+
+Quick script: `ENV=prod ./scripts/deploy.sh`, with a built-in health check (`/api/healthz`).
+
+### Static Deployment (GitHub Pages)
+
+```bash
+npm run build:static
+# 产物在 out/，可直接托管至任意静态服务
+```
+
+When pushing to the `master` branch, `.github/workflows/pages.yml` builds and publishes automatically.
+
+---
+
+## Local Development
+
+```bash
+npm run dev          # 开发服务器 http://localhost:3000
+npm run build        # 生产构建（含 API 路由）
+npm run build:static # 静态导出
+npm run start        # 启动生产服务（需先 build）
+
+npm run test         # 单测（vitest）
+npm run lint         # ESLint
+npm run typecheck    # TypeScript 类型检查
+npm run format       # Prettier 格式化
+```
+
+---
+
+## Architecture
+
+![GraphViewer architecture diagram](public/architecture-diagram.svg)
+
+> Light-themed static diagram. Interactive version (supports light/dark themes, path highlighting, and export): [view online](https://build-workbench.github.io/graph-viewer/architecture.html) or open `public/architecture.html` locally.
+
+**Layer overview**
+
+- `app/` — routing layer (Next.js App Router: `editor/`, `api/render`, `api/healthz`)
+- `components/` — UI layer (organized by `editor/` `preview/` `sidebar/` `ai/` `dialogs/` `landing/`)
+- `hooks/` — state and side effects (diagram state, render dispatch, live preview, version history, AI)
+- `lib/` — pure logic and configuration (`diagramConfig.ts` is the single source of truth for engines, `render.ts` handles local/remote dispatch, and `export/` `ai/` `server/` handle export, AI, and server-side capabilities respectively)
+- `scripts/` — build and deployment scripts
+
+<details>
+<summary>Key file index (for contributors)</summary>
+
+| Responsibility | File |
+|---|---|
+| Engine / format / group definitions | `lib/diagramConfig.ts` |
+| Static export detection | `lib/runtime.ts` |
+| App constants | `lib/config.ts` |
+| Diagram state | `lib/diagramContext.tsx`, `hooks/useDiagramState.ts` |
+| Render dispatch | `hooks/useDiagramRender.ts`, `lib/render.ts` |
+| Live preview | `hooks/useLivePreview.ts` |
+| Kroki proxy | `app/api/render/route.ts` |
+| Cache / rate limiting | `lib/server/renderCache.ts`, `lib/server/rateLimit.ts` |
+| Static export build | `scripts/build-static-export.mjs`, `next.config.js` |
+
+</details>
+
+---
+
+## Security Notes
+
+- SVG is sanitized with [DOMPurify](https://github.com/cure53/DOMPurify) before rendering; Mermaid runs in strict security mode
+- Kroki addresses are normalized and validated against an allowlist; arbitrary client-specified addresses are denied by default
+- The server enforces constraints on input length, request timeouts, concurrent deduplication, and rate limits
+- The AI feature is optional; API keys are kept in memory only and the browser connects directly to providers — never written to localStorage or the server
+- Security response headers such as `X-Frame-Options: DENY` are sent in production
+
+---
+
+## Project Status
+
+This project has been archived and is no longer actively iterated. The existing code and documentation remain usable; you can use it directly or fork it for further development. To report issues, please open an [Issue](https://github.com/build-workbench/graph-viewer/issues).
+
+## License
+
+[MIT](LICENSE)
+
+## Acknowledgements
+
+Built on [Mermaid](https://mermaid.js.org/), [Kroki](https://kroki.io/), [CodeMirror](https://codemirror.net/), [Next.js](https://nextjs.org/), and [Graphviz WASM](https://github.com/hpcc-systems/hpcc-js-wasm); thanks to the open source community.
+
+---
+<a id="chinese"></a>
+
+# GraphViewer
+
+<p align="center">
   在浏览器中编辑、预览与分享图表<br/>
   <em>支持 Mermaid、PlantUML、Graphviz、D2 等 16 种语法，开箱即用</em>
 </p>
