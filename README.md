@@ -115,6 +115,8 @@ Copy `.env.example` to `.env` and modify as needed:
 
 ### Docker Deployment
 
+Self-hosting unlocks the full capability set: all 16 engines, every export format, and — with the bundled `kroki` profile — zero outbound diagram data. Remote engines normally render via kroki.io; self-hosting Kroki keeps every diagram inside your network.
+
 ```bash
 # 使用公共 Kroki
 docker compose --profile prod up -d
@@ -122,6 +124,8 @@ docker compose --profile prod up -d
 # 自建 Kroki（数据不出内网，隐私更好）
 docker compose --profile prod --profile kroki up -d
 ```
+
+Security knobs (see [.env.example](./.env.example)): keep `KROKI_ALLOW_CLIENT_BASE_URL=false` so the server only renders against the Kroki you configured, and restrict `KROKI_CLIENT_BASE_URL_ALLOWLIST` to origins you control. Put a TLS reverse proxy in front of port 3000 for anything user-facing.
 
 | Profile | Description |
 |---|---|
@@ -330,6 +334,8 @@ npm run dev
 
 ### Docker 部署
 
+自部署即解锁完整能力：全部 16 种引擎、所有导出格式，配合内置的 `kroki` profile 还能做到图表数据零出网。远程引擎默认经 kroki.io 渲染；自建 Kroki 后，所有图表都留在你的内网里。
+
 ```bash
 # 使用公共 Kroki
 docker compose --profile prod up -d
@@ -337,6 +343,8 @@ docker compose --profile prod up -d
 # 自建 Kroki（数据不出内网，隐私更好）
 docker compose --profile prod --profile kroki up -d
 ```
+
+安全配置（见 [.env.example](./.env.example)）：保持 `KROKI_ALLOW_CLIENT_BASE_URL=false`，让服务端只向你自己配置的 Kroki 发起渲染；`KROKI_CLIENT_BASE_URL_ALLOWLIST` 只填写你信任的来源。面向用户访问时，请在 3000 端口前加 TLS 反向代理。
 
 | Profile | 说明 |
 |---|---|
