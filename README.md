@@ -1,3 +1,7 @@
+**English** | [中文](#chinese)
+
+<a id="top"></a>
+
 # GraphViewer
 
 <p align="center">
@@ -211,6 +215,7 @@ Built on [Mermaid](https://mermaid.js.org/), [Kroki](https://kroki.io/), [CodeMi
 
 ---
 <a id="chinese"></a>
+[English](#top) | **中文**
 
 # GraphViewer
 
