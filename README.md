@@ -142,7 +142,7 @@ npm run build:static
 # 产物在 out/，可直接托管至任意静态服务
 ```
 
-When pushing to the `master` branch, `.github/workflows/pages.yml` builds and publishes automatically.
+When pushing to the `main` branch, `.github/workflows/pages.yml` builds and publishes automatically.
 
 ---
 
@@ -361,7 +361,7 @@ npm run build:static
 # 产物在 out/，可直接托管至任意静态服务
 ```
 
-推送到 `master` 分支时，由 `.github/workflows/pages.yml` 自动构建并发布。
+推送到 `main` 分支时，由 `.github/workflows/pages.yml` 自动构建并发布。
 
 ---
 
